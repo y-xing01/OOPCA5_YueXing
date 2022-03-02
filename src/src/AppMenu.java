@@ -63,10 +63,10 @@ public class AppMenu {
                         System.out.println("===============================================================================================");
                         break;
                     case TWO:
-                        System.out.println("Vehicles option chosen");
+                        System.out.println("2 option chosen");
                         break;
                     case THREE:
-                        System.out.println("Bookings option chosen");
+                        System.out.println("3 option chosen");
                         break;
                     case EXIT:
                         System.out.println("Exit Menu option chosen");
