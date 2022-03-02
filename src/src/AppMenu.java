@@ -1,7 +1,5 @@
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
 
 public class AppMenu {
     public static void main(String[] args) {
@@ -22,7 +20,7 @@ public class AppMenu {
 
         final String MENU_ITEMS = "\n*** MAIN MENU OF OPTIONS ***\n"
                 + "1. Display All Players\n"
-                + "2. \n"
+                + "2. Display Map By Key\n"
                 + "3. \n"
                 + "4. Exit\n"
                 + "Enter Option [1,4]";
@@ -41,18 +39,8 @@ public class AppMenu {
                 option = Integer.parseInt(usersInput);
                 switch (option) {
                     case PLAYERS:
-                        ArrayList<Player> playerList = new ArrayList<>();
-
-                        playerList.add(new Player(1, "ZJ Lee", 25, 185.50f, 85.20f));
-                        playerList.add(new Player(2, "V.Axelson", 25, 185.50f, 85.20f));
-                        playerList.add(new Player(3, "K.Momota", 25, 185.50f, 85.20f));
-                        playerList.add(new Player(4, "LZJ", 25, 185.50f, 85.20f));
-                        playerList.add(new Player(5, "LZJ", 25, 185.50f, 85.20f));
-                        playerList.add(new Player(6, "LZJ", 25, 185.50f, 85.20f));
-                        playerList.add(new Player(7, "LZJ", 25, 185.50f, 85.20f));
-                        playerList.add(new Player(8, "LZJ", 25, 185.50f, 85.20f));
-                        playerList.add(new Player(9, "LZJ", 25, 185.50f, 85.20f));
-                        playerList.add(new Player(10, "LZJ", 25, 185.50f, 85.20f));
+                        System.out.println("Displaying Table for Player List");
+                        ArrayList<Player> playerList = playerArrayList();
 
                         System.out.println("_______________________________________________________________________________________________");
                         System.out.println("|  Player ID  |         Player Name         |  Player Age  |  Player Height  |  Player Weight |");
@@ -63,7 +51,24 @@ public class AppMenu {
                         System.out.println("===============================================================================================");
                         break;
                     case TWO:
-                        System.out.println("2 option chosen");
+                        System.out.println("Displaying Table for Player Map");
+                        Map<String, ArrayList<Player>> playerHashMap = playerHashMap();
+
+                        //Declaring Key
+//                        String key = "Thomas Cup 2022";
+                        System.out.print("Enter Map key : ");
+                        String key = keyboard.nextLine();
+                        playerList = playerHashMap.get(key);
+
+                        if (playerHashMap.containsKey(key)){
+                            System.out.println("Players that is participating in " + key + " are : ");
+                            for (Player p : playerList){
+                                System.out.println(p);
+                            }
+                        } else {
+                            System.out.println("No Map with key " + key + " was found");
+                        }
+
                         break;
                     case THREE:
                         System.out.println("3 option chosen");
@@ -82,6 +87,41 @@ public class AppMenu {
         } while (option != EXIT);
 
         System.out.println("\nExiting Main Menu, goodbye.");
+    }
 
+    public ArrayList<Player> playerArrayList(){
+        ArrayList<Player> playerList = new ArrayList<>();
+
+        //Inserting Player in ArrayList
+        playerList.add(new Player(1, "ZJ Lee", 25, 185.50f, 85.20f));
+        playerList.add(new Player(2, "V.Axelson", 25, 185.50f, 85.20f));
+        playerList.add(new Player(3, "K.Momota", 25, 185.50f, 85.20f));
+        playerList.add(new Player(4, "LZJ", 25, 185.50f, 85.20f));
+        playerList.add(new Player(5, "LZJ", 25, 185.50f, 85.20f));
+        playerList.add(new Player(6, "LZJ", 25, 185.50f, 85.20f));
+        playerList.add(new Player(7, "LZJ", 25, 185.50f, 85.20f));
+        playerList.add(new Player(8, "LZJ", 25, 185.50f, 85.20f));
+        playerList.add(new Player(9, "LZJ", 25, 185.50f, 85.20f));
+        playerList.add(new Player(10, "LZJ", 25, 185.50f, 85.20f));
+
+        return playerList;
+    }
+
+    public Map<String, ArrayList<Player>> playerHashMap(){
+        Map<String, ArrayList<Player>> playerMap = new HashMap<>();
+        ArrayList<Player> playerList = playerArrayList();
+
+        //Inserting ArrayList in HashMap
+        String key = "Thomas Cup 2022";
+        playerMap.put(key, playerList);
+
+        return playerMap;
+    }
+
+    public Map<String, ArrayList<Player>> playerTreeMap(){
+        Map<String, ArrayList<Player>> playerMap = new TreeMap<>();
+        ArrayList<Player> playerList = playerArrayList();
+
+        return playerMap;
     }
 }
