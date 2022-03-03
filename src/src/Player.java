@@ -1,14 +1,14 @@
 import java.util.Objects;
 
 public class Player {
-    private int playerID;
+    private int playerWRank;
     private String playerName;
     private int playerAge;
     private float playerHeight;
     private float playerWeight;
 
     public Player(int playerID, String playerName, int playerAge, float playerHeight, float playerWeight){
-        this.playerID = playerID;
+        this.playerWRank = playerID;
         this.playerName = playerName;
         this.playerAge = playerAge;
         this.playerHeight = playerHeight;
@@ -16,19 +16,19 @@ public class Player {
     }
 
     public Player(){
-        this.playerID = 0;
+        this.playerWRank = 0;
         this.playerName = "";
         this.playerAge = 0;
         this.playerHeight = 0;
         this.playerWeight = 0;
     }
 
-    public int getPlayerID() {
-        return playerID;
+    public int getPlayerWRank() {
+        return playerWRank;
     }
 
-    public void setPlayerID(int playerID) {
-        this.playerID = playerID;
+    public void setPlayerWRank(int playerWRank) {
+        this.playerWRank = playerWRank;
     }
 
     public String getPlayerName() {
@@ -68,20 +68,20 @@ public class Player {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Player player = (Player) o;
-        return playerID == player.playerID && playerAge == player.playerAge && Float.compare(player.playerHeight, playerHeight) == 0 && Float.compare(player.playerWeight, playerWeight) == 0 && Objects.equals(playerName, player.playerName);
+        return playerWRank == player.playerWRank && playerAge == player.playerAge && Float.compare(player.playerHeight, playerHeight) == 0 && Float.compare(player.playerWeight, playerWeight) == 0 && Objects.equals(playerName, player.playerName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(playerID, playerName, playerAge, playerHeight, playerWeight);
+        return Objects.hash(playerWRank, playerName, playerAge, playerHeight, playerWeight);
     }
 
     @Override
     public String toString() {
-        return "playerId : " + playerID +
-                ", playerName : " + playerName  +
-                ", playerAge : " + playerAge +
-                ", playerHeight : " + playerHeight +
-                " playerWeight : " + playerWeight+ "\n";
+        return "Player World Rank : " + playerWRank +
+                ", Player Name : " + playerName  +
+                ", Player Age : " + playerAge +
+                ", Player Height : " + playerHeight +
+                ", Player Weight : " + playerWeight;
     }
 }
