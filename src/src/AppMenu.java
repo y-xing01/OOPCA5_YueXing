@@ -20,8 +20,8 @@ public class AppMenu {
 
         final String MENU_ITEMS = "\n*** MAIN MENU OF OPTIONS ***\n"
                 + "1. Display All Players\n"
-                + "2. Display Map By Key\n"
-                + "3. \n"
+                + "2. Display Hash Map By Key\n"
+                + "3. Display Tree Map By Key\n"
                 + "4. Exit\n"
                 + "Enter Option [1,4]";
 
@@ -39,39 +39,26 @@ public class AppMenu {
                 option = Integer.parseInt(usersInput);
                 switch (option) {
                     case PLAYERS:
-                        System.out.println("Displaying Table for Player List");
+                        System.out.println("\nDisplaying Table for Player List :");
                         ArrayList<Player> playerList = playerArrayList();
 
-                        System.out.println("_______________________________________________________________________________________________");
-                        System.out.println("|  Player ID  |         Player Name         |  Player Age  |  Player Height  |  Player Weight |");
-                        System.out.println("===============================================================================================");
+                        System.out.println("_____________________________________________________________________________________________________");
+                        System.out.println("| Player World Rank |         Player Name         |  Player Age  |  Player Height  |  Player Weight |");
+                        System.out.println("=====================================================================================================");
                         for(Player p : playerList){
-                            System.out.printf("|      %-6d |\t\t      %-12s\t    | %7d\t   | %10.2f\t     | %10.2f\t  |\n",p.getPlayerID(), p.getPlayerName(), p.getPlayerAge(), p.getPlayerHeight(), p.getPlayerWeight());
+                            System.out.printf("|         %-6d    |\t\t    %-12s\t  | %7d\t     | %10.2f\t   | %10.2f\t    |\n",p.getPlayerWRank(), p.getPlayerName(), p.getPlayerAge(), p.getPlayerHeight(), p.getPlayerWeight());
                         }
-                        System.out.println("===============================================================================================");
+                        System.out.println("=====================================================================================================");
                         break;
                     case TWO:
-                        System.out.println("Displaying Table for Player Map");
-                        Map<String, ArrayList<Player>> playerHashMap = playerHashMap();
-
-                        //Declaring Key
-//                        String key = "Thomas Cup 2022";
-                        System.out.print("Enter Map key : ");
-                        String key = keyboard.nextLine();
-                        playerList = playerHashMap.get(key);
-
-                        if (playerHashMap.containsKey(key)){
-                            System.out.println("Players that is participating in " + key + " are : ");
-                            for (Player p : playerList){
-                                System.out.println(p);
-                            }
-                        } else {
-                            System.out.println("No Map with key " + key + " was found");
-                        }
+                        System.out.println("\nDisplaying Table for Player Hash Map");
+                        playerHashMap();
 
                         break;
                     case THREE:
-                        System.out.println("3 option chosen");
+                        System.out.println("\nDisplaying Table for Player Tree Map : ");
+                        playerTreeMap();
+
                         break;
                     case EXIT:
                         System.out.println("Exit Menu option chosen");
@@ -107,21 +94,54 @@ public class AppMenu {
         return playerList;
     }
 
-    public Map<String, ArrayList<Player>> playerHashMap(){
-        Map<String, ArrayList<Player>> playerMap = new HashMap<>();
+    public void playerHashMap(){
+        Scanner keyboard = new Scanner(System.in);
+        Map<String, Player> playerHashMap = new HashMap<>();
         ArrayList<Player> playerList = playerArrayList();
 
-        //Inserting ArrayList in HashMap
-        String key = "Thomas Cup 2022";
-        playerMap.put(key, playerList);
+        //Inserting ArrayList in HashMap nad creating key
+        String compName = "Thomas Cup 2022";
+        for (Player p : playerList){
+            playerHashMap.put(compName, p);
+            System.out.println(p);
+        }
 
-        return playerMap;
+
+        //Inputting Key
+        System.out.print("Enter Map key : ");
+        String key = keyboard.nextLine();
+
+        //Check IF key exists ELSE error message
+        if (playerHashMap.containsKey(key)){
+            //Display Map
+            System.out.println("\nPlayers that is participating in " + key + " are : ");
+            System.out.println("_______________________________________________________________________________________________");
+            System.out.println("|  Player ID  |         Player Name         |  Player Age  |  Player Height  |  Player Weight |");
+            System.out.println("===============================================================================================");
+            for (Player p2 : playerList){
+                System.out.printf("|      %-6d |\t\t      %-12s\t    | %7d\t   | %10.2f\t     | %10.2f\t  |\n",p2.getPlayerWRank(), p2.getPlayerName(), p2.getPlayerAge(), p2.getPlayerHeight(), p2.getPlayerWeight());
+            }
+            System.out.println("===============================================================================================");
+        } else {
+            //Error Message
+            System.out.println("No Map with key " + key + " was found");
+        }
     }
 
-    public Map<String, ArrayList<Player>> playerTreeMap(){
-        Map<String, ArrayList<Player>> playerMap = new TreeMap<>();
+    public void playerTreeMap(){
+        Map<Integer, Player> playerTreeMap = new TreeMap<>();
         ArrayList<Player> playerList = playerArrayList();
 
-        return playerMap;
+        //Inserting ArrayList in TreeMap and creating key
+        for (int playerId = 0; playerId < playerList.size(); playerId++){
+            playerTreeMap.put(playerId, playerList.get(playerId));
+        }
+
+        //Setting key
+        Set<Integer> keySet = playerTreeMap.keySet();
+
+        for (Map.Entry<Integer, Player> entry : playerTreeMap.entrySet()){
+            System.out.println("Player ID : " + entry.getKey() + ",  " + entry.getValue());
+        }
     }
 }
