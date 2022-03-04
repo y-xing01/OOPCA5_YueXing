@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class Player {
@@ -5,15 +6,13 @@ public class Player {
     private String playerName;
     private int playerAge;
     private float playerHeight;
-    private float playerWeight;
     private int careerWin;
 
-    public Player(int playerID, String playerName, int playerAge, float playerHeight, float playerWeight, int careerWin){
-        this.playerWRank = playerID;
+    public Player(int playerWRank, String playerName, int playerAge, float playerHeight, int careerWin){
+        this.playerWRank = playerWRank;
         this.playerName = playerName;
         this.playerAge = playerAge;
         this.playerHeight = playerHeight;
-        this.playerWeight = playerWeight;
         this.careerWin = careerWin;
     }
 
@@ -22,7 +21,6 @@ public class Player {
         this.playerName = "";
         this.playerAge = 0;
         this.playerHeight = 0;
-        this.playerWeight = 0;
         this.careerWin = 0;
     }
 
@@ -58,27 +56,21 @@ public class Player {
         this.playerHeight = playerHeight;
     }
 
-    public float getPlayerWeight() {
-        return playerWeight;
-    }
-
-    public void setPlayerWeight(int playerWeight) {
-        this.playerWeight = playerWeight;
-    }
-
     public int getCareerWin(){ return careerWin; }
+
+    public void setCareerWin(int careerWin){ this.careerWin = careerWin; }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Player player = (Player) o;
-        return playerWRank == player.playerWRank && playerAge == player.playerAge && Float.compare(player.playerHeight, playerHeight) == 0 && Float.compare(player.playerWeight, playerWeight) == 0 && Objects.equals(playerName, player.playerName);
+        return playerWRank == player.playerWRank && playerAge == player.playerAge && Float.compare(player.playerHeight, playerHeight) == 0 && Objects.equals(playerName, player.playerName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(playerWRank, playerName, playerAge, playerHeight, playerWeight);
+        return Objects.hash(playerWRank, playerName, playerAge, playerHeight);
     }
 
     @Override
@@ -86,7 +78,6 @@ public class Player {
         return "Player World Rank : " + playerWRank +
                 ", Player Name : " + playerName  +
                 ", Player Age : " + playerAge +
-                ", Player Height : " + playerHeight +
-                ", Player Weight : " + playerWeight;
+                ", Player Height : " + playerHeight;
     }
 }
