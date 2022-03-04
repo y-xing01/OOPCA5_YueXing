@@ -20,8 +20,8 @@ public class AppMenu {
 
         final String MENU_ITEMS = "\n*** MAIN MENU OF OPTIONS ***\n"
                 + "1. Display All Players\n"
-                + "2. Display Hash Map By Key\n"
-                + "3. Display Tree Map By Key\n"
+                + "2. (HashMap) Display Player Career Win By Name\n"
+                + "3. (TreeMap) Display Player ID in Tournament By Key\n"
                 + "4. Exit\n"
                 + "Enter Option [1,4]";
 
@@ -40,15 +40,8 @@ public class AppMenu {
                 switch (option) {
                     case PLAYERS:
                         System.out.println("\nDisplaying Table for Player List :");
-                        ArrayList<Player> playerList = playerArrayList();
+                        displayArrayList();
 
-                        System.out.println("_____________________________________________________________________________________________________");
-                        System.out.println("| Player World Rank |         Player Name         |  Player Age  |  Player Height  |  Player Weight |");
-                        System.out.println("=====================================================================================================");
-                        for(Player p : playerList){
-                            System.out.printf("|         %-6d    |\t\t    %-12s\t  | %7d\t     | %10.2f\t   | %10.2f\t    |\n",p.getPlayerWRank(), p.getPlayerName(), p.getPlayerAge(), p.getPlayerHeight(), p.getPlayerWeight());
-                        }
-                        System.out.println("=====================================================================================================");
                         break;
                     case TWO:
                         System.out.println("\nDisplaying Table for Player Hash Map");
@@ -76,55 +69,64 @@ public class AppMenu {
         System.out.println("\nExiting Main Menu, goodbye.");
     }
 
-    public ArrayList<Player> playerArrayList(){
+    public static ArrayList<Player> playerArrayList(){
         ArrayList<Player> playerList = new ArrayList<>();
 
         //Inserting Player in ArrayList
-        playerList.add(new Player(1, "ZJ Lee", 25, 185.50f, 85.20f));
-        playerList.add(new Player(2, "V.Axelson", 25, 185.50f, 85.20f));
-        playerList.add(new Player(3, "K.Momota", 25, 185.50f, 85.20f));
-        playerList.add(new Player(4, "LZJ", 25, 185.50f, 85.20f));
-        playerList.add(new Player(5, "LZJ", 25, 185.50f, 85.20f));
-        playerList.add(new Player(6, "LZJ", 25, 185.50f, 85.20f));
-        playerList.add(new Player(7, "LZJ", 25, 185.50f, 85.20f));
-        playerList.add(new Player(8, "LZJ", 25, 185.50f, 85.20f));
-        playerList.add(new Player(9, "LZJ", 25, 185.50f, 85.20f));
-        playerList.add(new Player(10, "LZJ", 25, 185.50f, 85.20f));
+        playerList.add(new Player(1, "ZJ Lee", 25, 185.50f, 85.20f, 123));
+        playerList.add(new Player(2, "V.Axelson", 25, 185.50f, 85.20f,123));
+        playerList.add(new Player(3, "K.Momota", 25, 185.50f, 85.20f,123));
+        playerList.add(new Player(4, "LZJ", 25, 185.50f, 85.20f,123));
+        playerList.add(new Player(5, "LZJ", 25, 185.50f, 85.20f,123));
+        playerList.add(new Player(6, "LZJ", 25, 185.50f, 85.20f,123));
+        playerList.add(new Player(7, "LZJ", 25, 185.50f, 85.20f,123));
+        playerList.add(new Player(8, "LZJ", 25, 185.50f, 85.20f,123));
+        playerList.add(new Player(9, "LZJ", 25, 185.50f, 85.20f,123));
+        playerList.add(new Player(10, "LZJ", 25, 185.50f, 85.20f,123));
 
         return playerList;
     }
 
-    public void playerHashMap(){
+    public static void displayArrayList(){
+        ArrayList<Player> playerList = playerArrayList();
+        System.out.println("_____________________________________________________________________________________________________");
+        System.out.println("| Player World Rank |         Player Name         |  Player Age  |  Player Height  |  Player Weight |");
+        System.out.println("=====================================================================================================");
+        for(Player p : playerList){
+            System.out.printf("|         %-6d    |\t\t    %-12s\t  | %7d\t     | %10.2f\t   | %10.2f\t    |\n",p.getPlayerWRank(), p.getPlayerName(), p.getPlayerAge(), p.getPlayerHeight(), p.getPlayerWeight());
+        }
+        System.out.println("=====================================================================================================");
+    }
+
+    public static void playerHashMap(){
         Scanner keyboard = new Scanner(System.in);
-        Map<String, Player> playerHashMap = new HashMap<>();
+        Map<String, Integer> playerHashMap = new HashMap<>();
         ArrayList<Player> playerList = playerArrayList();
 
         //Inserting ArrayList in HashMap nad creating key
-        String compName = "Thomas Cup 2022";
-        for (Player p : playerList){
-            playerHashMap.put(compName, p);
-            System.out.println(p);
+        for(Player p : playerList){
+            playerHashMap.put(p.getPlayerName().toLowerCase(), p.getCareerWin());
         }
 
 
         //Inputting Key
-        System.out.print("Enter Map key : ");
-        String key = keyboard.nextLine();
+        System.out.print("Enter Player Name : ");
+        String name = keyboard.nextLine();
 
         //Check IF key exists ELSE error message
-        if (playerHashMap.containsKey(key)){
-            //Display Map
-            System.out.println("\nPlayers that is participating in " + key + " are : ");
-            System.out.println("_______________________________________________________________________________________________");
-            System.out.println("|  Player ID  |         Player Name         |  Player Age  |  Player Height  |  Player Weight |");
-            System.out.println("===============================================================================================");
-            for (Player p2 : playerList){
-                System.out.printf("|      %-6d |\t\t      %-12s\t    | %7d\t   | %10.2f\t     | %10.2f\t  |\n",p2.getPlayerWRank(), p2.getPlayerName(), p2.getPlayerAge(), p2.getPlayerHeight(), p2.getPlayerWeight());
+        if (playerHashMap.containsKey(name.toLowerCase())){
+            ////Display Map
+            System.out.println("\nCareer win for player " + name + " : ");
+            System.out.println("___________________________________________________");
+            System.out.println("|         Player Name         | Player Career Win |");
+            System.out.println("===================================================");
+            for(Player p : playerList){
+                System.out.printf("|\t\t    %-12s\t  |\t   %7d\t      |\n", p.getPlayerName(), p.getCareerWin());
             }
-            System.out.println("===============================================================================================");
+            System.out.println("===================================================");
         } else {
             //Error Message
-            System.out.println("No Map with key " + key + " was found");
+            System.out.println("No Name of " + name + " was found");
         }
     }
 
@@ -137,11 +139,9 @@ public class AppMenu {
             playerTreeMap.put(playerId, playerList.get(playerId));
         }
 
-        //Setting key
-        Set<Integer> keySet = playerTreeMap.keySet();
-
+        //Find entry key and displaying map
         for (Map.Entry<Integer, Player> entry : playerTreeMap.entrySet()){
-            System.out.println("Player ID : " + entry.getKey() + ",  " + entry.getValue());
+            System.out.println("Player ID : " + entry.getKey() + ",  " + entry.getValue() + "\n");
         }
     }
 }

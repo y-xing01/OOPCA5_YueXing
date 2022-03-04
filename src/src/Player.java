@@ -6,13 +6,15 @@ public class Player {
     private int playerAge;
     private float playerHeight;
     private float playerWeight;
+    private int careerWin;
 
-    public Player(int playerID, String playerName, int playerAge, float playerHeight, float playerWeight){
+    public Player(int playerID, String playerName, int playerAge, float playerHeight, float playerWeight, int careerWin){
         this.playerWRank = playerID;
         this.playerName = playerName;
         this.playerAge = playerAge;
         this.playerHeight = playerHeight;
         this.playerWeight = playerWeight;
+        this.careerWin = careerWin;
     }
 
     public Player(){
@@ -21,6 +23,7 @@ public class Player {
         this.playerAge = 0;
         this.playerHeight = 0;
         this.playerWeight = 0;
+        this.careerWin = 0;
     }
 
     public int getPlayerWRank() {
@@ -62,6 +65,8 @@ public class Player {
     public void setPlayerWeight(int playerWeight) {
         this.playerWeight = playerWeight;
     }
+
+    public int getCareerWin(){ return careerWin; }
 
     @Override
     public boolean equals(Object o) {
