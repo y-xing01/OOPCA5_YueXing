@@ -20,8 +20,8 @@ public class AppMenu {
 
         final String MENU_ITEMS = "\n*** MAIN MENU OF OPTIONS ***\n"
                 + "1. Display All Players\n"
-                + "2. (HashMap) Display Player Career Win By Name\n"
-                + "3. (TreeMap) Display Player ID in Tournament By Key\n"
+                + "2. (HashMap) Display Player Table and Career Win By Country\n"
+                + "3. (TreeMap) Display Player List by Tournament ID\n"
                 + "4. Exit\n"
                 + "Enter Option [1,4]";
 
@@ -39,17 +39,17 @@ public class AppMenu {
                 option = Integer.parseInt(usersInput);
                 switch (option) {
                     case PLAYERS:
-                        System.out.println("\nDisplaying Table for Player List :");
+                        System.out.println("\nDisplaying Table for Player :");
                         displayArrayList();
 
                         break;
                     case TWO:
-                        System.out.println("\nDisplaying Table for Player Hash Map");
+                        System.out.println("\nDisplaying Player Table List by Country : ");
                         playerHashMap();
 
                         break;
                     case THREE:
-                        System.out.println("\nDisplaying Table for Player Tree Map : ");
+                        System.out.println("\nDisplaying Player List by Tournament ID : ");
                         playerTreeMap();
 
                         break;
@@ -129,25 +129,25 @@ public class AppMenu {
         country = "Indonesia";
         playerHashMap.put(country.toLowerCase(), countryList);
 
-        //China
+        //Country (China)
         countryList = new ArrayList<>();
         countryList.add(new Player(6, "Chen Long", 33, 187.00f, 446));
         country = "China";
         playerHashMap.put(country.toLowerCase(), countryList);
 
-        //Malaysia
+        //Country (Malaysia)
         countryList = new ArrayList<>();
         countryList.add(new Player(7, "Lee Zii Jia", 23, 186.00f, 188));
         country = "Malaysia";
         playerHashMap.put(country.toLowerCase(), countryList);
 
-        //Singapore
+        //Country (Singapore)
         countryList = new ArrayList<>();
         countryList.add(new Player(9, "Loh Kean Yew", 24, 175.00f, 163));
         country = "Singapore";
         playerHashMap.put(country.toLowerCase(), countryList);
 
-        //HongKong
+        //Country (HongKong)
         countryList = new ArrayList<>();
         countryList.add(new Player(10, "Angus Ng", 27, 181.00f, 298));
         country = "HongKong";
@@ -156,11 +156,11 @@ public class AppMenu {
         //Inputting Key and retrieving object
         System.out.print("Enter Country Name (Denmark, Japan, Taiwan, Indonesia, China, Malaysia, Singapore, HongKong): ");
         country = keyboard.nextLine();
-
         countryList = playerHashMap.get(country.toLowerCase());
+
         //Check IF key exists ELSE error message
         if (playerHashMap.containsKey(country.toLowerCase())){
-            ////Display Map
+            //Display Map
             System.out.println("\nPlayers in country " + country + " : ");
             System.out.println("________________________________________________________________________________________________________");
             System.out.println("| Player World Rank |         Player Name         |  Player Age  |  Player Height  | Player Career Win |");
@@ -180,15 +180,15 @@ public class AppMenu {
         ArrayList<Player> playerList = playerArrayList();
 
         //Inserting ArrayList in TreeMap and creating key
-        for (int playerId = 0; playerId < playerList.size(); playerId++) {
-            playerTreeMap.put(playerId + 202201, playerList.get(playerId));
+        for (int tPlayerId = 0; tPlayerId < playerList.size(); tPlayerId++) {
+            playerTreeMap.put(tPlayerId + 202201, playerList.get(tPlayerId));
         }
 
         //Find entry key and displaying map
         for (Map.Entry<Integer, Player> entry : playerTreeMap.entrySet()) {
-            //Competition Player ID From 202201 - 202202
+            //Tournament Player ID From 202201 - 202202
 //            if (entry.getKey() == 202202)
-                System.out.println("Player Competition ID : " + entry.getKey() + ",  " + entry.getValue() + "\n");
+                System.out.println("Player Tournament ID : " + entry.getKey() + ",  " + entry.getValue() + "\n");
 
         }
     }
