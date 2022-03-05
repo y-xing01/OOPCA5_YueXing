@@ -181,12 +181,15 @@ public class AppMenu {
 
         //Inserting ArrayList in TreeMap and creating key
         for (int playerId = 0; playerId < playerList.size(); playerId++) {
-            playerTreeMap.put(playerId + 20221, playerList.get(playerId));
+            playerTreeMap.put(playerId + 202201, playerList.get(playerId));
         }
 
         //Find entry key and displaying map
         for (Map.Entry<Integer, Player> entry : playerTreeMap.entrySet()) {
-            System.out.println("Player Competition ID : " + entry.getKey() + ",  " + entry.getValue() + "\n");
+            //Competition Player ID From 202201 - 202202
+//            if (entry.getKey() == 202202)
+                System.out.println("Player Competition ID : " + entry.getKey() + ",  " + entry.getValue() + "\n");
+
         }
     }
 
