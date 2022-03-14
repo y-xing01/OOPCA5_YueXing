@@ -22,13 +22,17 @@ public class AppMenu {
                 + "1. Display All Players\n"
                 + "2. (HashMap) Display Player Table and Career Win By Country\n"
                 + "3. (TreeMap) Display Player List by Tournament ID\n"
-                + "4. Exit\n"
-                + "Enter Option [1,4]";
+                + "4. (PriorityQueue) Display Player by Age priority\n"
+                + "5. (PriorityQueue TwoFields) Display Player by Age within Name priority\n"
+                + "6. Exit\n"
+                + "Enter Option [1,6]";
 
         final int PLAYERS = 1;
         final int TWO = 2;
         final int THREE = 3;
-        final int EXIT = 4;
+        final int FOUR = 4;
+        final int FIVE = 5;
+        final int EXIT = 6;
 
         Scanner keyboard = new Scanner(System.in);
         int option = 0;
@@ -51,6 +55,16 @@ public class AppMenu {
                     case THREE:
                         System.out.println("\nDisplaying Player List by Tournament ID : ");
                         playerTreeMap();
+
+                        break;
+                    case FOUR:
+                        System.out.println("\nDisplaying Player List by AGE priority : ");
+                        playerPriorityQueue();
+
+                        break;
+                    case FIVE:
+                        System.out.println("\nDisplaying Player List by AGE within NAME priority : ");
+                        playerPriorityQueueTwoField();
 
                         break;
                     case EXIT:
@@ -159,13 +173,13 @@ public class AppMenu {
         countryList = playerHashMap.get(country.toLowerCase());
 
         //Check IF key exists ELSE error message
-        if (playerHashMap.containsKey(country.toLowerCase())){
+        if (playerHashMap.containsKey(country.toLowerCase())) {
             //Display Map
             System.out.println("\nPlayers in country " + country + " : ");
             System.out.println("________________________________________________________________________________________________________");
             System.out.println("| Player World Rank |         Player Name         |  Player Age  |  Player Height  | Player Career Win |");
             System.out.println("========================================================================================================");
-            for(Player p : countryList){
+            for (Player p : countryList) {
                 System.out.printf("|         %-6d    |\t    %-12s\t\t  | %7d\t     | %10.2f\t   | \t%7d\t       |\n", p.getPlayerWRank(), p.getPlayerName(), p.getPlayerAge(), p.getPlayerHeight(), p.getCareerWin());
             }
             System.out.println("========================================================================================================");
@@ -188,10 +202,60 @@ public class AppMenu {
         for (Map.Entry<Integer, Player> entry : playerTreeMap.entrySet()) {
             //Tournament Player ID From 202201 - 202202
 //            if (entry.getKey() == 202202)
-                System.out.println("Player Tournament ID : " + entry.getKey() + ",  " + entry.getValue() + "\n");
+            System.out.println("Player Tournament ID : " + entry.getKey() + ",  " + entry.getValue() + "\n");
 
         }
     }
+
+    public void playerPriorityQueue() {
+        PriorityQueue<Player> ageQueue = new PriorityQueue<>(new ageComparator(SortType.Ascending));
+
+        //Third priority
+        ageQueue.add(new Player(10, "Angus Ng", 27, 181.00f, 298));
+        ageQueue.add(new Player(2, "Kento Momota", 27, 175.00f, 361));
+
+        //Second priority
+        ageQueue.add(new Player(9, "Loh Kean Yew", 24, 175.00f, 163));
+        ageQueue.add(new Player(8, "J.Christie", 24, 179.50f, 228));
+
+
+        System.out.println("\nRemove and display one element");
+        while (!ageQueue.isEmpty()){
+            ageQueue.remove();
+        }
+        System.out.println(ageQueue.peek());
+
+        //Third priority
+        ageQueue.add(new Player(10, "Angus Ng", 27, 181.00f, 298));
+        ageQueue.add(new Player(2, "Kento Momota", 27, 175.00f, 361));
+
+        //Second priority
+        ageQueue.add(new Player(9, "Loh Kean Yew", 24, 175.00f, 163));
+        ageQueue.add(new Player(8, "J.Christie", 24, 179.50f, 228));
+
+        //First priority
+        ageQueue.add(new Player(7, "Lee Zii Jia", 23, 186.00f, 188));
+        System.out.println("\nRemove and display all element : ");
+        while (!ageQueue.isEmpty()) {
+            System.out.println(ageQueue.remove() + "\n");
+        }
+    }
+
+
+    public void playerPriorityQueueTwoField() {
+
+        PriorityQueue<Player> nameQueue = new PriorityQueue<>();
+        ArrayList<Player> playerList = playerArrayList();
+
+        for (Player p : playerList) {
+            nameQueue.add(p);
+        }
+
+        while (!nameQueue.isEmpty()) {
+            System.out.println(nameQueue.remove() + "\n");
+        }
+    }
+}
 
 //            System.out.println("\nPlayers country and career win in " + country + " : ");
 //            System.out.println("___________________________________________________");
@@ -201,4 +265,4 @@ public class AppMenu {
 //               System.out.printf("|\t    %-12s\t\t  |\t   %7d\t      |\n", p.getPlayerName(), p.getCareerWin());
 //            }
 //            System.out.println("===================================================");
-}
+

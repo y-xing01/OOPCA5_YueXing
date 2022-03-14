@@ -1,7 +1,6 @@
-import java.util.ArrayList;
 import java.util.Objects;
 
-public class Player {
+public class Player implements Comparable<Player>{
     private int playerWRank;
     private String playerName;
     private int playerAge;
@@ -65,12 +64,12 @@ public class Player {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Player player = (Player) o;
-        return playerWRank == player.playerWRank && playerAge == player.playerAge && Float.compare(player.playerHeight, playerHeight) == 0 && Objects.equals(playerName, player.playerName);
+        return playerWRank == player.playerWRank && playerAge == player.playerAge && Float.compare(player.playerHeight, playerHeight) == 0 && careerWin == player.careerWin && Objects.equals(playerName, player.playerName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(playerWRank, playerName, playerAge, playerHeight);
+        return Objects.hash(playerWRank, playerName, playerAge, playerHeight, careerWin);
     }
 
     @Override
@@ -79,5 +78,19 @@ public class Player {
                 ", Player Name : " + playerName  +
                 ", Player Age : " + playerAge +
                 ", Player Height : " + playerHeight;
+    }
+
+    @Override
+    public int compareTo(Player o)
+    {
+        boolean pSameName = this.getPlayerName().equalsIgnoreCase(o.getPlayerName());
+
+        if(pSameName) {
+            return this.getPlayerAge() - o.getPlayerAge();
+        }
+        else {
+            return this.getPlayerName().compareToIgnoreCase(
+                    o.getPlayerName());
+        }
     }
 }
