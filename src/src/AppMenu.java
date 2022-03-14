@@ -219,19 +219,13 @@ public class AppMenu {
         ageQueue.add(new Player(8, "J.Christie", 24, 179.50f, 228));
 
 
-        System.out.println("\nRemove and display one element");
-        while (!ageQueue.isEmpty()){
-            ageQueue.remove();
-        }
-        System.out.println(ageQueue.peek());
+        System.out.println("\nRemove and display one element : ");
+        System.out.println(ageQueue.poll());
+//        while (!ageQueue.isEmpty()){
+//            ageQueue.remove();
+//        }
 
-        //Third priority
-        ageQueue.add(new Player(10, "Angus Ng", 27, 181.00f, 298));
-        ageQueue.add(new Player(2, "Kento Momota", 27, 175.00f, 361));
-
-        //Second priority
-        ageQueue.add(new Player(9, "Loh Kean Yew", 24, 175.00f, 163));
-        ageQueue.add(new Player(8, "J.Christie", 24, 179.50f, 228));
+        System.out.println("\n=========================================================================================");
 
         //First priority
         ageQueue.add(new Player(7, "Lee Zii Jia", 23, 186.00f, 188));
