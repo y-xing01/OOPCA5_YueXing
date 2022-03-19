@@ -10,7 +10,7 @@ public class AppMenu {
 
     public void start() {
         try {
-            displayMainMenu();        // User Interface - Menu
+            displayMainMenu();
         } catch (IOException e) {
             e.printStackTrace();
         }
