@@ -30,10 +30,10 @@ public class AppMenu {
     private void displayMainMenu() throws IOException {
 
         final String MENU_ITEMS = "\n*** MAIN MENU OF OPTIONS ***\n"
-                + "1. Display Menu for PART ONE\n"
-                + "2. Display Menu for PART TWO\n"
+                + "1. Display Menu for OOPCA5 PART ONE\n"
+                + "2. Display Menu for OOPCA5 PART TWO\n"
                 + "3. Exit\n"
-                + "Enter Option [1,6]";
+                + "Enter Option [1,3]";
 
         final int PART1 = 1;
         final int PART2 = 2;
@@ -48,12 +48,12 @@ public class AppMenu {
                 option = Integer.parseInt(usersInput);
                 switch (option) {
                     case PART1:
-                        System.out.println("\nDisplaying Menu for Part 1 :");
+                        System.out.println("\nDisplaying Menu for OOPCA5 Part 1 :");
                         displayerPart1Menu();
 
                         break;
                     case PART2:
-                        System.out.println("\nDisplaying Menu for Part 2 : ");
+                        System.out.println("\nDisplaying Menu for OOPCA5 Part 2 : ");
                         displayPart2Menu();
 
                         break;
@@ -77,7 +77,7 @@ public class AppMenu {
     //PART ONE MENU
     private void displayerPart1Menu() throws IOException {
 
-        final String MENU_ITEMS = "*** MAIN MENU OF OPTIONS FOR PART 1***\n"
+        final String MENU_ITEMS = "*** MAIN MENU OF OPTIONS FOR OOPC5 PART 1***\n"
                 + "1. Display All Players\n"
                 + "2. (HashMap) Display Player Table and Career Win By Country\n"
                 + "3. (TreeMap) Display Player List by Tournament ID\n"
@@ -146,10 +146,10 @@ public class AppMenu {
     private void displayPart2Menu() throws IOException {
 
         final String MENU_ITEMS = "\n*** MAIN MENU OF OPTIONS ***\n"
-                + "1. Display Menu for PART ONE\n"
+                + "1. Find All Players in Database\n"
                 + "2. Display Menu for PART TWO\n"
                 + "3. Exit\n"
-                + "Enter Option [1,6]";
+                + "Enter Option [1,3]";
 
         final int PART1 = 1;
         final int PART2 = 2;
@@ -168,14 +168,19 @@ public class AppMenu {
                         System.out.println("\n");
                         try
                         {
-                            System.out.println("\nCall findAllUsers()");
-                            ArrayList<Player> players = PlayerDao.findAllPlayers();     // call a method in the DAO
+                            System.out.println("Find ALL Players : ");
+                            ArrayList<Player> playerList = PlayerDao.findAllPlayers();     // call a method in the DAO
 
-                            if( players.isEmpty() )
-                                System.out.println("There are no Users");
+                            if(playerList.isEmpty())
+                                System.out.println("There are no Players");
                             else {
-                                for (Player p : players)
-                                    System.out.println("Players : " + p.toString());
+                                System.out.println("____________________________________________________________________________________");
+                                System.out.println("| Player World Rank |         Player Name         |  Player Age  |  Player Height  |");
+                                System.out.println("====================================================================================");
+                                for (Player p : playerList)
+                                    System.out.printf("|         %-6d    |\t    %-12s\t\t  | %7d\t     | %10.2f\t   |\n", p.getPlayerWRank(), p.getPlayerName(), p.getPlayerAge(), p.getPlayerHeight());
+
+                                System.out.println("====================================================================================");
                             }
                         }
                         catch( DaoException e )
