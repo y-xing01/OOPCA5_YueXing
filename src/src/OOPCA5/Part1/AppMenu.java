@@ -147,12 +147,12 @@ public class AppMenu {
 
         final String MENU_ITEMS = "\n*** MAIN MENU OF OPTIONS ***\n"
                 + "1. Find All Players in Database\n"
-                + "2. Display Menu for PART TWO\n"
+                + "2. Find all Players within AGE group\n"
                 + "3. Exit\n"
                 + "Enter Option [1,3]";
 
-        final int PART1 = 1;
-        final int PART2 = 2;
+        final int DISPLAYALL = 1;
+        final int DISPLAYAGE = 2;
         final int EXIT = 3;
 
         Scanner keyboard = new Scanner(System.in);
@@ -164,34 +164,52 @@ public class AppMenu {
                 String usersInput = keyboard.nextLine();
                 option = Integer.parseInt(usersInput);
                 switch (option) {
-                    case PART1:
+                    case DISPLAYALL:
                         System.out.println("\n");
-                        try
-                        {
+                        try {
                             System.out.println("Find ALL Players : ");
-                            ArrayList<Player> playerList = PlayerDao.findAllPlayers();     // call a method in the DAO
+                            ArrayList<Player> playerList = PlayerDao.findAllPlayers();
 
-                            if(playerList.isEmpty())
+                            if (playerList.isEmpty())
                                 System.out.println("There are no Players");
                             else {
-                                System.out.println("____________________________________________________________________________________");
-                                System.out.println("| Player World Rank |         Player Name         |  Player Age  |  Player Height  |");
-                                System.out.println("====================================================================================");
+                                System.out.println("________________________________________________________________________________________________________");
+                                System.out.println("| Player World Rank |         Player Name         |  Player Age  |  Player Height  | Player Career Win |");
+                                System.out.println("========================================================================================================");
                                 for (Player p : playerList)
-                                    System.out.printf("|         %-6d    |\t    %-12s\t\t  | %7d\t     | %10.2f\t   |\n", p.getPlayerWRank(), p.getPlayerName(), p.getPlayerAge(), p.getPlayerHeight());
-
-                                System.out.println("====================================================================================");
+                                    System.out.printf("|         %-6d    |\t    %-12s\t\t  | %7d\t     | %10.2f\t   | \t%7d\t       |\n", p.getPlayerWRank(), p.getPlayerName(), p.getPlayerAge(), p.getPlayerHeight(), p.getCareerWin());
+                                System.out.println("========================================================================================================");
                             }
-                        }
-                        catch( DaoException e )
-                        {
+                        } catch (DaoException e) {
                             e.printStackTrace();
                         }
-
                         break;
-                    case PART2:
-                        System.out.println("\n");
+                    case DISPLAYAGE:
+                        try {
+                            System.out.println("Find ALL Players by AGE within age group: ");
+                            System.out.println("Please enter Age 1 : ");
+                            int age1 = keyboard.nextInt();
+                            System.out.println("Please enter Age 2 : ");
+                            int age2 = keyboard.nextInt();
 
+                            ArrayList<Player> playerList2 = PlayerDao.findPlayerByAge(age1, age2);
+
+                            if (playerList2.isEmpty()) {
+                                System.out.println("There are no Players between " + age1 + " AND " + age2);
+                            }
+                            else{
+                                System.out.println("\nPlayer Age within " + age1 + " and " + age2 + " : ");
+                                System.out.println("________________________________________________________________________________________________________");
+                                System.out.println("| Player World Rank |         Player Name         |  Player Age  |  Player Height  | Player Career Win |");
+                                System.out.println("========================================================================================================");
+                                for (Player p : playerList2)
+                                    System.out.printf("|         %-6d    |\t    %-12s\t\t  | %7d\t     | %10.2f\t   | \t%7d\t       |\n", p.getPlayerWRank(), p.getPlayerName(), p.getPlayerAge(), p.getPlayerHeight(), p.getCareerWin());
+                                System.out.println("========================================================================================================");
+                            }
+                        } catch (DaoException e) {
+                            e.printStackTrace();
+                        }
+                        keyboard.nextLine();
                         break;
                     case EXIT:
                         System.out.println("Exit Menu option chosen");
@@ -201,7 +219,8 @@ public class AppMenu {
                         break;
                 }
 
-            } catch (InputMismatchException | NumberFormatException e) {
+            } catch (InputMismatchException |
+                    NumberFormatException e) {
                 System.out.print("Invalid option - please enter number in range");
             }
         } while (option != EXIT);
@@ -209,9 +228,9 @@ public class AppMenu {
         System.out.println("\nExiting Main Menu, goodbye.");
     }
 
-    /******************************************************************************************************************************
-    *********************************************ALL METHODS BELOW FOR FUNCTIONS BELOW*********************************************
-    ******************************************************************************************************************************/
+     /******************************************************************************************************************************
+     *********************************************ALL METHODS BELOW FOR FUNCTIONS BELOW*********************************************
+     ******************************************************************************************************************************/
 
     public static ArrayList<Player> playerArrayList() {
         ArrayList<Player> playerList = new ArrayList<>();
@@ -307,7 +326,7 @@ public class AppMenu {
             //Display Map
             System.out.println("\nPlayers in country " + country + " : ");
             System.out.println("________________________________________________________________________________________________________");
-            System.out.println("| Player World Rank |         Part1.Player Name         |  Player Age  |  Player Height  | Player Career Win |");
+            System.out.println("| Player World Rank |         Player Name         |  Player Age  |  Player Height  | Player Career Win |");
             System.out.println("========================================================================================================");
             for (Player p : countryList) {
                 System.out.printf("|         %-6d    |\t    %-12s\t\t  | %7d\t     | %10.2f\t   | \t%7d\t       |\n", p.getPlayerWRank(), p.getPlayerName(), p.getPlayerAge(), p.getPlayerHeight(), p.getCareerWin());
