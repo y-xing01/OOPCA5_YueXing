@@ -1,3 +1,9 @@
+package OOPCA5.Part1;
+
+import OOPCA5.DAOs.MySqlPlayerDao;
+import OOPCA5.DAOs.PlayerDaoInterface;
+import OOPCA5.Exceptions.DaoException;
+
 import java.io.IOException;
 import java.util.*;
 
@@ -16,9 +22,62 @@ public class AppMenu {
         }
     }
 
+    /******************************************************************************************************************************
+     ****************************************************ALL DISPLAY MENU BELOW****************************************************
+     ******************************************************************************************************************************/
+
+    //MAIN MENU
     private void displayMainMenu() throws IOException {
 
         final String MENU_ITEMS = "\n*** MAIN MENU OF OPTIONS ***\n"
+                + "1. Display Menu for PART ONE\n"
+                + "2. Display Menu for PART TWO\n"
+                + "3. Exit\n"
+                + "Enter Option [1,6]";
+
+        final int PART1 = 1;
+        final int PART2 = 2;
+        final int EXIT = 3;
+
+        Scanner keyboard = new Scanner(System.in);
+        int option = 0;
+        do {
+            System.out.println("\n" + MENU_ITEMS);
+            try {
+                String usersInput = keyboard.nextLine();
+                option = Integer.parseInt(usersInput);
+                switch (option) {
+                    case PART1:
+                        System.out.println("\nDisplaying Menu for Part 1 :");
+                        displayerPart1Menu();
+
+                        break;
+                    case PART2:
+                        System.out.println("\nDisplaying Menu for Part 2 : ");
+                        displayPart2Menu();
+
+                        break;
+                    case EXIT:
+                        System.out.println("Exit Menu option chosen");
+                        break;
+                    default:
+                        System.out.print("Invalid option - please enter number in range");
+                        break;
+                }
+
+            } catch (InputMismatchException | NumberFormatException e) {
+                System.out.print("Invalid option - please enter number in range");
+            }
+        } while (option != EXIT);
+
+        System.out.println("\nExiting Main Menu, goodbye.");
+    }
+
+
+    //PART ONE MENU
+    private void displayerPart1Menu() throws IOException {
+
+        final String MENU_ITEMS = "*** MAIN MENU OF OPTIONS FOR PART 1***\n"
                 + "1. Display All Players\n"
                 + "2. (HashMap) Display Player Table and Career Win By Country\n"
                 + "3. (TreeMap) Display Player List by Tournament ID\n"
@@ -80,8 +139,74 @@ public class AppMenu {
             }
         } while (option != EXIT);
 
+        System.out.println("\nExiting to Main Menu.");
+    }
+
+    //PART 2 MENU
+    private void displayPart2Menu() throws IOException {
+
+        final String MENU_ITEMS = "\n*** MAIN MENU OF OPTIONS ***\n"
+                + "1. Display Menu for PART ONE\n"
+                + "2. Display Menu for PART TWO\n"
+                + "3. Exit\n"
+                + "Enter Option [1,6]";
+
+        final int PART1 = 1;
+        final int PART2 = 2;
+        final int EXIT = 3;
+
+        Scanner keyboard = new Scanner(System.in);
+        int option = 0;
+        do {
+            System.out.println("\n" + MENU_ITEMS);
+            try {
+                PlayerDaoInterface PlayerDao = new MySqlPlayerDao();
+                String usersInput = keyboard.nextLine();
+                option = Integer.parseInt(usersInput);
+                switch (option) {
+                    case PART1:
+                        System.out.println("\n");
+                        try
+                        {
+                            System.out.println("\nCall findAllUsers()");
+                            ArrayList<Player> players = PlayerDao.findAllPlayers();     // call a method in the DAO
+
+                            if( players.isEmpty() )
+                                System.out.println("There are no Users");
+                            else {
+                                for (Player p : players)
+                                    System.out.println("Players : " + p.toString());
+                            }
+                        }
+                        catch( DaoException e )
+                        {
+                            e.printStackTrace();
+                        }
+
+                        break;
+                    case PART2:
+                        System.out.println("\n");
+
+                        break;
+                    case EXIT:
+                        System.out.println("Exit Menu option chosen");
+                        break;
+                    default:
+                        System.out.print("Invalid option - please enter number in range");
+                        break;
+                }
+
+            } catch (InputMismatchException | NumberFormatException e) {
+                System.out.print("Invalid option - please enter number in range");
+            }
+        } while (option != EXIT);
+
         System.out.println("\nExiting Main Menu, goodbye.");
     }
+
+    /******************************************************************************************************************************
+    *********************************************ALL METHODS BELOW FOR FUNCTIONS BELOW*********************************************
+    ******************************************************************************************************************************/
 
     public static ArrayList<Player> playerArrayList() {
         ArrayList<Player> playerList = new ArrayList<>();
@@ -177,7 +302,7 @@ public class AppMenu {
             //Display Map
             System.out.println("\nPlayers in country " + country + " : ");
             System.out.println("________________________________________________________________________________________________________");
-            System.out.println("| Player World Rank |         Player Name         |  Player Age  |  Player Height  | Player Career Win |");
+            System.out.println("| Player World Rank |         Part1.Player Name         |  Player Age  |  Player Height  | Player Career Win |");
             System.out.println("========================================================================================================");
             for (Player p : countryList) {
                 System.out.printf("|         %-6d    |\t    %-12s\t\t  | %7d\t     | %10.2f\t   | \t%7d\t       |\n", p.getPlayerWRank(), p.getPlayerName(), p.getPlayerAge(), p.getPlayerHeight(), p.getCareerWin());

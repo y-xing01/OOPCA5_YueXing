@@ -1,3 +1,5 @@
+package OOPCA5.Part1;
+
 public enum SortType {
     Ascending(1, "Sort Ascending"),
     Descending(-1, "Sort Descending");

@@ -1,3 +1,5 @@
+package OOPCA5.Part1;
+
 import java.util.Objects;
 
 public class Player implements Comparable<Player>{
