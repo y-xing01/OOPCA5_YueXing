@@ -29,12 +29,13 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface{
             resultSet = ps.executeQuery();
             while (resultSet.next())
             {
+                int playerId = resultSet.getInt("PLAYER_ID");
                 int playerWorldRank = resultSet.getInt("PLAYER_WORLD_RANK");
                 String playerName = resultSet.getString("PLAYER_NAME");
                 int playerAge = resultSet.getInt("PLAYER_AGE");
                 float playerHeight = resultSet.getFloat("PLAYER_HEIGHT");
                 int playerCareerWin = resultSet.getInt("PLAYER_CAREER_WIN");
-                Player p = new Player(playerWorldRank, playerName, playerAge, playerHeight, playerCareerWin);
+                Player p = new Player(playerId, playerWorldRank, playerName, playerAge, playerHeight, playerCareerWin);
                 playerList.add(p);
             }
         } catch (SQLException e)
@@ -120,25 +121,25 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface{
     }
 
     @Override
-    public boolean deletePlayerByRank(int player_world_rank) throws DaoException
+    public boolean deletePlayerById(int player_id) throws DaoException
     {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet resultSet = null;
-        boolean check = false;
+        boolean check;
 
         try
         {
             connection = this.getConnection();
 
-            String query = "DELETE FROM PLAYER WHERE PLAYER_WORLD_RANK = ?";
+            String query = "DELETE FROM PLAYER WHERE PLAYER_ID = ?";
             ps = connection.prepareStatement(query);
-            ps.setInt(1, player_world_rank);
+            ps.setInt(1, player_id);
             ps.executeUpdate();
 
         } catch (SQLException e)
         {
-            throw new DaoException("DELETE player by WORLD RANK : " + e.getMessage());
+            throw new DaoException("DELETE player by ID : " + e.getMessage());
         } finally
         {
             try
@@ -158,7 +159,7 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface{
                 check = true;
             } catch (SQLException e)
             {
-                throw new DaoException("DELETE player by WORLD RANK :  " + e.getMessage());
+                throw new DaoException("DELETE player by ID :  " + e.getMessage());
             }
         }
         return check;

@@ -3,6 +3,7 @@ package OOPCA5.Part1;
 import java.util.Objects;
 
 public class Player implements Comparable<Player>{
+    private int playerId;
     private int playerWRank;
     private String playerName;
     private int playerAge;
@@ -17,12 +18,20 @@ public class Player implements Comparable<Player>{
         this.careerWin = careerWin;
     }
 
-    public Player(){
-        this.playerWRank = 0;
-        this.playerName = "";
-        this.playerAge = 0;
-        this.playerHeight = 0;
-        this.careerWin = 0;
+    public Player(int playerId ,int playerWRank, String playerName, int playerAge, float playerHeight, int careerWin){
+        this.playerId = playerId;
+        this.playerWRank = playerWRank;
+        this.playerName = playerName;
+        this.playerAge = playerAge;
+        this.playerHeight = playerHeight;
+        this.careerWin = careerWin;
+    }
+    public int getPlayerId() {
+        return playerId;
+    }
+
+    public void setPlayerId(int playerId) {
+        this.playerId = playerId;
     }
 
     public int getPlayerWRank() {

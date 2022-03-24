@@ -215,21 +215,21 @@ public class AppMenu {
                     case DELETEPLAYER:
                         try {
                             ArrayList<Player> playerList = PlayerDao.findAllPlayers();
-                            System.out.println("\nDELETE Player by WORLD RANK");
-                            System.out.println("Please enter player WORLD RANK to delete (1-10) : ");
-                            int player_world_rank = keyboard.nextInt();
+                            System.out.println("\nDELETE Player by ID");
+                            System.out.println("Please enter player ID to delete (1-10) : ");
+                            int player_id = keyboard.nextInt();
                             boolean check = false;
 
                             for (Player p : playerList){
-                                boolean player = PlayerDao.deletePlayerByRank(player_world_rank);
-                                if (player_world_rank == p.getPlayerWRank()){
+                                boolean player = PlayerDao.deletePlayerById(player_id);
+                                if (player_id == p.getPlayerId()){
                                     check = true;
                                 }
                             }
                             if(check == true)
-                                System.out.println("Player WORLD RANK : " + player_world_rank + " is deleted.");
+                                System.out.println("Player ID : " + player_id + " is deleted.");
                             else
-                                System.out.println("Player with that WORLD RANK is not found.");
+                                System.out.println("Player with that ID is not found.");
                         } catch (DaoException e) {
                             e.printStackTrace();
                         }
