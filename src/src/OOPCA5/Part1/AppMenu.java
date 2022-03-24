@@ -147,13 +147,15 @@ public class AppMenu {
 
         final String MENU_ITEMS = "\n*** MAIN MENU OF OPTIONS ***\n"
                 + "1. Find All Players in Database\n"
-                + "2. Find all Players within AGE group\n"
-                + "3. Exit\n"
-                + "Enter Option [1,3]";
+                + "2. Find ALL Players within AGE group\n"
+                + "3. Delete Player by WORLD RANK\n"
+                + "4. Exit\n"
+                + "Enter Option [1,4]";
 
         final int DISPLAYALL = 1;
         final int DISPLAYAGE = 2;
-        final int EXIT = 3;
+        final int DELETEPLAYER = 3;
+        final int EXIT = 4;
 
         Scanner keyboard = new Scanner(System.in);
         int option = 0;
@@ -167,7 +169,7 @@ public class AppMenu {
                     case DISPLAYALL:
                         System.out.println("\n");
                         try {
-                            System.out.println("Find ALL Players : ");
+                            System.out.println("\nFind ALL Players : ");
                             ArrayList<Player> playerList = PlayerDao.findAllPlayers();
 
                             if (playerList.isEmpty())
@@ -186,7 +188,7 @@ public class AppMenu {
                         break;
                     case DISPLAYAGE:
                         try {
-                            System.out.println("Find ALL Players by AGE within age group: ");
+                            System.out.println("\nFind ALL Players by AGE within age group: ");
                             System.out.println("Please enter Age 1 : ");
                             int age1 = keyboard.nextInt();
                             System.out.println("Please enter Age 2 : ");
@@ -196,8 +198,7 @@ public class AppMenu {
 
                             if (playerList2.isEmpty()) {
                                 System.out.println("There are no Players between " + age1 + " AND " + age2);
-                            }
-                            else{
+                            } else {
                                 System.out.println("\nPlayer Age within " + age1 + " and " + age2 + " : ");
                                 System.out.println("________________________________________________________________________________________________________");
                                 System.out.println("| Player World Rank |         Player Name         |  Player Age  |  Player Height  | Player Career Win |");
@@ -206,6 +207,29 @@ public class AppMenu {
                                     System.out.printf("|         %-6d    |\t    %-12s\t\t  | %7d\t     | %10.2f\t   | \t%7d\t       |\n", p.getPlayerWRank(), p.getPlayerName(), p.getPlayerAge(), p.getPlayerHeight(), p.getCareerWin());
                                 System.out.println("========================================================================================================");
                             }
+                        } catch (DaoException e) {
+                            e.printStackTrace();
+                        }
+                        keyboard.nextLine();
+                        break;
+                    case DELETEPLAYER:
+                        try {
+                            ArrayList<Player> playerList = PlayerDao.findAllPlayers();
+                            System.out.println("\nDELETE Player by WORLD RANK");
+                            System.out.println("Please enter player WORLD RANK to delete (1-10) : ");
+                            int player_world_rank = keyboard.nextInt();
+                            boolean check = false;
+
+                            for (Player p : playerList){
+                                boolean player = PlayerDao.deletePlayerByRank(player_world_rank);
+                                if (player_world_rank == p.getPlayerWRank()){
+                                    check = true;
+                                }
+                            }
+                            if(check == true)
+                                System.out.println("Player WORLD RANK : " + player_world_rank + " is deleted.");
+                            else
+                                System.out.println("Player with that WORLD RANK is not found.");
                         } catch (DaoException e) {
                             e.printStackTrace();
                         }
@@ -228,7 +252,7 @@ public class AppMenu {
         System.out.println("\nExiting Main Menu, goodbye.");
     }
 
-     /******************************************************************************************************************************
+    /******************************************************************************************************************************
      *********************************************ALL METHODS BELOW FOR FUNCTIONS BELOW*********************************************
      ******************************************************************************************************************************/
 
