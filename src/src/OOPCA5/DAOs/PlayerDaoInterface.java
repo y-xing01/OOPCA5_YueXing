@@ -10,6 +10,6 @@ public interface PlayerDaoInterface {
 
     public ArrayList <Player> findPlayerByAge(int player_age1, int player_age2) throws  DaoException;
 
-    public Player deletePlayerByName(String player_name) throws  DaoException;
+    public boolean deletePlayerByRank(int player_world_rank) throws  DaoException;
 
 }

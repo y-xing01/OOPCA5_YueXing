@@ -120,26 +120,25 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface{
     }
 
     @Override
-    public Player deletePlayerByName(String player_name) throws DaoException
+    public boolean deletePlayerByRank(int player_world_rank) throws DaoException
     {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet resultSet = null;
-        Player player = null;
+        boolean check = false;
 
         try
         {
             connection = this.getConnection();
 
-            String query = "DELETE FROM PLAYER WHERE PLAYER_NAME = ?";
+            String query = "DELETE FROM PLAYER WHERE PLAYER_WORLD_RANK = ?";
             ps = connection.prepareStatement(query);
-            ps.setString(1, player_name.toLowerCase());
+            ps.setInt(1, player_world_rank);
             ps.executeUpdate();
 
-            //Using a PreparedStatement to execute SQL...
         } catch (SQLException e)
         {
-            throw new DaoException("DELETE player by NAME : " + e.getMessage());
+            throw new DaoException("DELETE player by WORLD RANK : " + e.getMessage());
         } finally
         {
             try
@@ -156,11 +155,12 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface{
                 {
                     freeConnection(connection);
                 }
+                check = true;
             } catch (SQLException e)
             {
-                throw new DaoException("DELETE player by NAME :  " + e.getMessage());
+                throw new DaoException("DELETE player by WORLD RANK :  " + e.getMessage());
             }
         }
-        return player;
+        return check;
     }
 }
