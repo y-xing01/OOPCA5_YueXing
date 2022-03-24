@@ -182,12 +182,12 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface{
             ps.setString(2, player.getPlayerName());
             ps.setInt(3, player.getPlayerAge());
             ps.setFloat(4, player.getPlayerHeight());
-            ps.setInt(4, player.getCareerWin());
+            ps.setInt(5, player.getCareerWin());
             ps.executeUpdate();
 
         } catch (SQLException e)
         {
-            throw new DaoException("addUser() " + e.getMessage());
+            throw new DaoException("Player ADDED : " + e.getMessage());
         } finally
         {
             try
@@ -206,9 +206,9 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface{
                 }
             } catch (SQLException e)
             {
-                throw new DaoException("addUser() " + e.getMessage());
+                throw new DaoException("Player ADDED : " + e.getMessage());
             }
         }
-        return player;     // may be empty
+        return player;
     }
 }

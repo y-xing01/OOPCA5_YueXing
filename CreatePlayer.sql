@@ -5,7 +5,7 @@ USE `oop_badminton`;
 DROP TABLE IF EXISTS player;
 
 CREATE TABLE player(
-    player_id int(10) not null,
+    player_id int(10) not null AUTO_INCREMENT,
 	player_world_rank int(10) not null,
 	player_name varchar(50) not null,
 	player_age int(10) not null,

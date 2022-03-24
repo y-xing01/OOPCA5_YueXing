@@ -148,14 +148,16 @@ public class AppMenu {
         final String MENU_ITEMS = "\n*** MAIN MENU OF OPTIONS ***\n"
                 + "1. Find All Players in Database\n"
                 + "2. Find ALL Players within AGE group\n"
-                + "3. Delete Player by WORLD RANK\n"
-                + "4. Exit\n"
-                + "Enter Option [1,4]";
+                + "3. Delete Player by ID\n"
+                + "4. ADD Player \n"
+                + "5. Exit\n"
+                + "Enter Option [1,5]";
 
         final int DISPLAYALL = 1;
         final int DISPLAYAGE = 2;
         final int DELETEPLAYER = 3;
-        final int EXIT = 4;
+        final int ADDPLAYER = 4;
+        final int EXIT = 5;
 
         Scanner keyboard = new Scanner(System.in);
         int option = 0;
@@ -194,16 +196,16 @@ public class AppMenu {
                             System.out.println("Please enter Age 2 : ");
                             int age2 = keyboard.nextInt();
 
-                            ArrayList<Player> playerList2 = PlayerDao.findPlayerByAge(age1, age2);
+                            ArrayList<Player> playerList = PlayerDao.findPlayerByAge(age1, age2);
 
-                            if (playerList2.isEmpty()) {
+                            if (playerList.isEmpty()) {
                                 System.out.println("There are no Players between " + age1 + " AND " + age2);
                             } else {
                                 System.out.println("\nPlayer Age within " + age1 + " and " + age2 + " : ");
                                 System.out.println("________________________________________________________________________________________________________");
                                 System.out.println("| Player World Rank |         Player Name         |  Player Age  |  Player Height  | Player Career Win |");
                                 System.out.println("========================================================================================================");
-                                for (Player p : playerList2)
+                                for (Player p : playerList)
                                     System.out.printf("|         %-6d    |\t    %-12s\t\t  | %7d\t     | %10.2f\t   | \t%7d\t       |\n", p.getPlayerWRank(), p.getPlayerName(), p.getPlayerAge(), p.getPlayerHeight(), p.getCareerWin());
                                 System.out.println("========================================================================================================");
                             }
@@ -220,16 +222,51 @@ public class AppMenu {
                             int player_id = keyboard.nextInt();
                             boolean check = false;
 
-                            for (Player p : playerList){
+                            for (Player p : playerList) {
                                 boolean player = PlayerDao.deletePlayerById(player_id);
-                                if (player_id == p.getPlayerId()){
+                                if (player_id == p.getPlayerId())
                                     check = true;
-                                }
                             }
-                            if(check == true)
+                            if (check == true)
                                 System.out.println("Player ID : " + player_id + " is deleted.");
                             else
                                 System.out.println("Player with that ID is not found.");
+                        } catch (DaoException e) {
+                            e.printStackTrace();
+                        }
+                        keyboard.nextLine();
+                        break;
+                    case ADDPLAYER:
+                        try {
+                            ArrayList<Player> playerList = PlayerDao.findAllPlayers();
+                            System.out.println("\nADD Player");
+                            System.out.println("Please enter player WORLD RANKING : ");
+                            int worldRank = keyboard.nextInt();
+
+                            System.out.println("Please enter player NAME : ");
+                            String playerName = keyboard.next();
+
+                            System.out.println("Please enter player AGE : ");
+                            int playerAge = keyboard.nextInt();
+
+                            System.out.println("Please enter player Height : ");
+                            float playerHeight = keyboard.nextFloat();
+
+                            System.out.println("Please enter player Career Won : ");
+                            int playerCareerWon = keyboard.nextInt();
+                            boolean check = false;
+
+                            Player player = PlayerDao.addPlayer(new Player(worldRank, playerName, playerAge, playerHeight, playerCareerWon));
+                            for (Player p : playerList) {
+                                if (p.getPlayerId() == player.getPlayerId())
+                                    check = true;
+                            }
+                            if (check == true)
+                                System.out.println(player.toString() + " is ADDED.");
+                            else {
+                                System.out.println("Player is NOT ADDED");
+                            }
+
                         } catch (DaoException e) {
                             e.printStackTrace();
                         }
