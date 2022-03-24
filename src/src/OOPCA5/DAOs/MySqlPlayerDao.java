@@ -164,4 +164,51 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface{
         }
         return check;
     }
+
+    @Override
+    public Player addPlayer(Player player) throws DaoException
+    {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
+
+        try
+        {
+            connection = this.getConnection();
+
+            String query = "INSERT INTO PLAYER VALUES(NULL, ?, ?, ?, ?, ?)";
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, player.getPlayerWRank());
+            ps.setString(2, player.getPlayerName());
+            ps.setInt(3, player.getPlayerAge());
+            ps.setFloat(4, player.getPlayerHeight());
+            ps.setInt(4, player.getCareerWin());
+            ps.executeUpdate();
+
+        } catch (SQLException e)
+        {
+            throw new DaoException("addUser() " + e.getMessage());
+        } finally
+        {
+            try
+            {
+                if (resultSet != null)
+                {
+                    resultSet.close();
+                }
+                if (ps != null)
+                {
+                    ps.close();
+                }
+                if (connection != null)
+                {
+                    freeConnection(connection);
+                }
+            } catch (SQLException e)
+            {
+                throw new DaoException("addUser() " + e.getMessage());
+            }
+        }
+        return player;     // may be empty
+    }
 }

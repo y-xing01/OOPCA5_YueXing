@@ -12,4 +12,5 @@ public interface PlayerDaoInterface {
 
     public boolean deletePlayerById(int player_id) throws  DaoException;
 
+    public Player addPlayer(Player player) throws  DaoException;
 }
