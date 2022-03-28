@@ -2,7 +2,7 @@ package OOPCA5.Part1;
 
 import java.util.Objects;
 
-public class Player implements Comparable<Player>{
+public class Player{
     private int playerId;
     private int playerWRank;
     private String playerName;
@@ -89,19 +89,5 @@ public class Player implements Comparable<Player>{
                 ", Player Name : " + playerName  +
                 ", Player Age : " + playerAge +
                 ", Player Height : " + playerHeight;
-    }
-
-    @Override
-    public int compareTo(Player o)
-    {
-        boolean pSameName = this.getPlayerName().equalsIgnoreCase(o.getPlayerName());
-
-        if(pSameName) {
-            return this.getPlayerAge() - o.getPlayerAge();
-        }
-        else {
-            return this.getPlayerName().compareToIgnoreCase(
-                    o.getPlayerName());
-        }
     }
 }
