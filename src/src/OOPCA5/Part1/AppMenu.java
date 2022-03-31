@@ -302,6 +302,8 @@ public class AppMenu {
                         } catch (DaoException e) {
                             e.printStackTrace();
                         }
+                        keyboard.nextLine();
+                        break;
                     case EXIT:
                         System.out.println("Exit Menu option chosen");
                         break;
