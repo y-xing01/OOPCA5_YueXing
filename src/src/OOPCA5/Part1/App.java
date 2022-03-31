@@ -159,7 +159,6 @@ public class App {
         }
     }
 
-
     public static void playerPriorityQueueTwoField() {
 
         PriorityQueue<Player> nameQueue = new PriorityQueue<>(new namaAgeComparator());

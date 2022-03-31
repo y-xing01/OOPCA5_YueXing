@@ -72,11 +72,10 @@ public class AppMenu {
         System.out.println("\nExiting Main Menu, goodbye.");
     }
 
-
     //PART ONE MENU
     private void displayerPart1Menu() throws IOException {
 
-        final String MENU_ITEMS = "*** MAIN MENU OF OPTIONS FOR OOPC5 PART 1***\n"
+        final String MENU_ITEMS = "*** MAIN MENU OF OPTIONS FOR OOPCA5 PART 1***\n"
                 + "1. Display All Players\n"
                 + "2. (HashMap) Display Player Table and Career Win By Country\n"
                 + "3. (TreeMap) Display Player List by Tournament ID\n"
@@ -145,7 +144,7 @@ public class AppMenu {
     //PART 2 MENU
     private void displayPart2Menu() throws IOException {
 
-        final String MENU_ITEMS = "\n*** MAIN MENU OF OPTIONS ***\n"
+        final String MENU_ITEMS = "\n*** MAIN MENU OF OPTION FOR OOPCA5 PART 2***\n"
                 + "1. Find ALL Players in Database\n"
                 + "2. Find Players by WORLD RANKING\n"
                 + "3. Delete Player by ID\n"
