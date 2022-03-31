@@ -36,13 +36,14 @@
 
 ## OOP CA5 Stage 1
 ### APP Menu 
-![image](https://user-images.githubusercontent.com/93914097/161161177-c3fa65bd-2055-4f37-9acf-30e5893ff6ef.png)
+![input-onlinejpgtools (5)](https://user-images.githubusercontent.com/93914097/161162039-e876414b-c37c-4fd6-b062-6ed3d4608ad4.jpg)
+
 ### Methods
 ![input-onlinejpgtools (3)](https://user-images.githubusercontent.com/93914097/161161582-e91a8d9e-cca8-4f91-830d-afaee660c93e.jpg)
 
 ## OOP CA5 Stage 2
 ## APP Menu
 ![image](https://user-images.githubusercontent.com/93914097/161161295-963e534e-bbf8-488d-b5bf-ea859fa938bf.png)
-## Methods
-![input-onlinejpgtools (4)](https://user-images.githubusercontent.com/93914097/161161915-223bcafd-8095-42ca-a3a7-5e3a5bcd8713.jpg)
 
+## Methods
+![input-onlinejpgtools (6)](https://user-images.githubusercontent.com/93914097/161162082-35025dc0-496d-4837-87d2-2f0fcbcb2d29.jpg)
