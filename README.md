@@ -27,3 +27,5 @@
 * It will take O(log N) time to insert and delete each element in the priority queue.
 * Based on heap structure, priority queue also has two types max - priority queue and min - priority queue.
 * Complexity: O(logN)
+
+![Raw View of APP Menu](input-onlinejpgtools.html)
