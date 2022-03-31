@@ -13,7 +13,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 
 public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface{
     @Override
@@ -71,7 +70,7 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface{
     }
 
     @Override
-    public ArrayList<Player> findPlayerByAge(int player_age1, int player_age2) throws DaoException
+    public ArrayList<Player> findPlayerByWorldRanking(int player_world_ranking) throws DaoException
     {
         Connection connection = null;
         PreparedStatement ps = null;
@@ -82,10 +81,9 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface{
         {
             connection = this.getConnection();
 
-            String query = "SELECT * FROM PLAYER WHERE PLAYER_AGE BETWEEN ? AND ?";
+            String query = "SELECT * FROM PLAYER WHERE PLAYER_WORLD_RANK = ?";
             ps = connection.prepareStatement(query);
-            ps.setInt(1,  player_age1);
-            ps.setInt(2,  player_age2);
+            ps.setInt(1,  player_world_ranking);
 
             resultSet = ps.executeQuery();
             while (resultSet.next())
@@ -100,7 +98,7 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface{
             }
         } catch (SQLException e)
         {
-            throw new DaoException("Find all Player Age between " + e.getMessage());
+            throw new DaoException("Find Player by WORLD RANKING : " + e.getMessage());
         } finally
         {
             try
@@ -119,7 +117,7 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface{
                 }
             } catch (SQLException e)
             {
-                throw new DaoException("Find all Player Age between  " + e.getMessage());
+                throw new DaoException("Find player by WORLD RANKING :  " + e.getMessage());
             }
         }
         return playerList;
@@ -131,7 +129,7 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface{
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet resultSet = null;
-        boolean check;
+        boolean check = false;
 
         try
         {
@@ -140,8 +138,9 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface{
             String query = "DELETE FROM PLAYER WHERE PLAYER_ID = ?";
             ps = connection.prepareStatement(query);
             ps.setInt(1, player_id);
-            ps.executeUpdate();
-
+            if (ps.executeUpdate() > 0){
+                check = true;
+            }
         } catch (SQLException e)
         {
             throw new DaoException("DELETE player by ID : " + e.getMessage());
@@ -161,7 +160,6 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface{
                 {
                     freeConnection(connection);
                 }
-                check = true;
             } catch (SQLException e)
             {
                 throw new DaoException("DELETE player by ID :  " + e.getMessage());
@@ -192,7 +190,7 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface{
 
         } catch (SQLException e)
         {
-            throw new DaoException("Player ADDED : " + e.getMessage());
+            throw new DaoException("Add Player : " + e.getMessage());
         } finally
         {
             try
@@ -211,7 +209,7 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface{
                 }
             } catch (SQLException e)
             {
-                throw new DaoException("Player ADDED : " + e.getMessage());
+                throw new DaoException("Add Player : " + e.getMessage());
             }
         }
         return player;
@@ -321,6 +319,61 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface{
             } catch (SQLException e)
             {
                 throw new DaoException("Find All Player by JSON : " + e.getMessage());
+            }
+        }
+        Gson gsonParser = new Gson();
+        return gsonParser.toJson(playerList);
+    }
+
+    @Override
+    public String findPlayerByIdJson(int player_id) throws DaoException
+    {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
+        ArrayList<Player> playerList = new ArrayList<>();
+
+        try
+        {
+            connection = this.getConnection();
+
+            String query = "SELECT * FROM PLAYER WHERE PLAYER_ID = ?";
+            ps = connection.prepareStatement(query);
+            ps.setInt(1,  player_id);
+
+            resultSet = ps.executeQuery();
+            while (resultSet.next())
+            {
+                int playerWorldRank = resultSet.getInt("PLAYER_WORLD_RANK");
+                String playerName = resultSet.getString("PLAYER_NAME");
+                int playerAge = resultSet.getInt("PLAYER_AGE");
+                float playerHeight = resultSet.getFloat("PLAYER_HEIGHT");
+                int playerCareerWin = resultSet.getInt("PLAYER_CAREER_WIN");
+                Player p = new Player(playerWorldRank, playerName, playerAge, playerHeight, playerCareerWin);
+                playerList.add(p);
+            }
+        } catch (SQLException e)
+        {
+            throw new DaoException("Find player by ID JSON " + e.getMessage());
+        } finally
+        {
+            try
+            {
+                if (resultSet != null)
+                {
+                    resultSet.close();
+                }
+                if (ps != null)
+                {
+                    ps.close();
+                }
+                if (connection != null)
+                {
+                    freeConnection(connection);
+                }
+            } catch (SQLException e)
+            {
+                throw new DaoException("Find player by ID JSON " + e.getMessage());
             }
         }
         Gson gsonParser = new Gson();

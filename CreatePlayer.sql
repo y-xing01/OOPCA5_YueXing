@@ -14,7 +14,7 @@ CREATE TABLE player(
 
 	PRIMARY KEY (player_id)
 );
-
+ALTER TABLE `player` ADD UNIQUE(`player_world_rank`);
 insert into player values (1, 1, "Viktor Axelsen", 28, 194.50, 421);
 insert into player values (2, 2, "Kento Momota", 27, 175.0, 361);
 insert into player values (3, 3, "Anders Antonsen", 24, 183.00, 238);
