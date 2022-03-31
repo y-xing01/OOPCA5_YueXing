@@ -2,12 +2,17 @@ package OOPCA5.DAOs;
 
 import OOPCA5.Part1.Player;
 import OOPCA5.Exceptions.DaoException;
+import OOPCA5.Part1.SortType;
+import OOPCA5.Part1.ageComparator;
+import com.google.gson.Gson;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface{
@@ -210,5 +215,115 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface{
             }
         }
         return player;
+    }
+
+    @Override
+    public ArrayList<Player> findPlayerByFilter(Comparator<Player> ageComparator) throws DaoException
+    {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
+        ArrayList<Player> playerList = new ArrayList<>();
+
+        try
+        {
+            connection = this.getConnection();
+
+            String query = "SELECT * FROM PLAYER";
+            ps = connection.prepareStatement(query);
+
+            resultSet = ps.executeQuery();
+            while (resultSet.next())
+            {
+                int playerId = resultSet.getInt("PLAYER_ID");
+                int playerWorldRank = resultSet.getInt("PLAYER_WORLD_RANK");
+                String playerName = resultSet.getString("PLAYER_NAME");
+                int playerAge = resultSet.getInt("PLAYER_AGE");
+                float playerHeight = resultSet.getFloat("PLAYER_HEIGHT");
+                int playerCareerWin = resultSet.getInt("PLAYER_CAREER_WIN");
+                Player p = new Player(playerId, playerWorldRank, playerName, playerAge, playerHeight, playerCareerWin);
+                playerList.add(p);
+            }
+        } catch (SQLException e)
+        {
+            throw new DaoException("Find All Player by FILTER(AGE) : " + e.getMessage());
+        } finally
+        {
+            try
+            {
+                if (resultSet != null)
+                {
+                    resultSet.close();
+                }
+                if (ps != null)
+                {
+                    ps.close();
+                }
+                if (connection != null)
+                {
+                    freeConnection(connection);
+                }
+            } catch (SQLException e)
+            {
+                throw new DaoException("Find All Player by FILTER(AGE) : " + e.getMessage());
+            }
+        }
+        Collections.sort(playerList, new ageComparator(SortType.Ascending));
+        return playerList;
+    }
+
+    @Override
+    public String findAllPlayersJson() throws DaoException
+    {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
+        ArrayList<Player> playerList = new ArrayList<>();
+
+        try
+        {
+            connection = this.getConnection();
+
+            String query = "SELECT * FROM PLAYER";
+            ps = connection.prepareStatement(query);
+
+            resultSet = ps.executeQuery();
+            while (resultSet.next())
+            {
+                int playerId = resultSet.getInt("PLAYER_ID");
+                int playerWorldRank = resultSet.getInt("PLAYER_WORLD_RANK");
+                String playerName = resultSet.getString("PLAYER_NAME");
+                int playerAge = resultSet.getInt("PLAYER_AGE");
+                float playerHeight = resultSet.getFloat("PLAYER_HEIGHT");
+                int playerCareerWin = resultSet.getInt("PLAYER_CAREER_WIN");
+                Player p = new Player(playerId, playerWorldRank, playerName, playerAge, playerHeight, playerCareerWin);
+                playerList.add(p);
+            }
+        } catch (SQLException e)
+        {
+            throw new DaoException("Find All Player by JSON : " + e.getMessage());
+        } finally
+        {
+            try
+            {
+                if (resultSet != null)
+                {
+                    resultSet.close();
+                }
+                if (ps != null)
+                {
+                    ps.close();
+                }
+                if (connection != null)
+                {
+                    freeConnection(connection);
+                }
+            } catch (SQLException e)
+            {
+                throw new DaoException("Find All Player by JSON : " + e.getMessage());
+            }
+        }
+        Gson gsonParser = new Gson();
+        return gsonParser.toJson(playerList);
     }
 }

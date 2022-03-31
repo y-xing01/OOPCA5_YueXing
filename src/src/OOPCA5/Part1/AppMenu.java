@@ -3,6 +3,7 @@ package OOPCA5.Part1;
 import OOPCA5.DAOs.MySqlPlayerDao;
 import OOPCA5.DAOs.PlayerDaoInterface;
 import OOPCA5.Exceptions.DaoException;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.rmi.StubNotFoundException;
@@ -153,15 +154,19 @@ public class AppMenu {
                 + "3. Delete Player by ID\n"
                 + "4. ADD Player \n"
                 + "5. Find ALL Players by FILTER\n"
-                + "6. Exit\n"
-                + "Enter Option [1,5]";
+                + "6. Return ALL Players by JSON\n"
+                + "7. Return Players by ID JSON\n"
+                + "8. Exit\n"
+                + "Enter Option [1,8]";
 
         final int DISPLAYALL = 1;
         final int DISPLAYAGE = 2;
         final int DELETEPLAYER = 3;
         final int ADDPLAYER = 4;
         final int FILTERPLAYER = 5;
-        final int EXIT = 6;
+        final int DISPLAYJSON = 6;
+        final int DISPLAYIDJSON = 7;
+        final int EXIT = 8;
 
         Scanner keyboard = new Scanner(System.in);
         int option = 0;
@@ -229,7 +234,7 @@ public class AppMenu {
                             for (Player p : playerList) {
                                 boolean player = PlayerDao.deletePlayerById(player_id);
                                 if (player_id == p.getPlayerId())
-                                    check = true;
+                                    check = player;
                             }
                             if (check == true)
                                 System.out.println("Player ID : " + player_id + " is deleted.");
@@ -266,7 +271,7 @@ public class AppMenu {
                                     check = true;
                             }
                             if (check == true)
-                                System.out.println(player.toString() + " is ADDED.");
+                                System.out.println(player + " is ADDED.");
                             else {
                                 System.out.println("Player is NOT ADDED");
                             }
@@ -277,8 +282,31 @@ public class AppMenu {
                         keyboard.nextLine();
                         break;
                     case FILTERPLAYER:
-//                        ArrayList<Player> arrayList = new ArrayList<Player>(new ageComparator(SortType.Ascending));
-                        keyboard.nextLine();
+                        try{
+                            ArrayList<Player> playerList = PlayerDao.findPlayerByFilter(new ageComparator(SortType.Ascending));;
+
+                            if (playerList.isEmpty()) {
+                                System.out.println("There are no Players");
+                            } else {
+                                System.out.println("________________________________________________________________________________________________________");
+                                System.out.println("| Player World Rank |         Player Name         |  Player Age  |  Player Height  | Player Career Win |");
+                                System.out.println("========================================================================================================");
+                                for (Player p : playerList)
+                                    System.out.printf("|         %-6d    |\t    %-12s\t\t  | %7d\t     | %10.2f\t   | \t%7d\t       |\n", p.getPlayerWRank(), p.getPlayerName(), p.getPlayerAge(), p.getPlayerHeight(), p.getCareerWin());
+                                System.out.println("========================================================================================================");
+                            }
+                        }
+                        catch (DaoException e){
+                            e.printStackTrace();
+                        }
+                        break;
+                    case DISPLAYJSON:
+                        try{
+                            System.out.println(PlayerDao.findAllPlayersJson());
+                        }
+                        catch (DaoException e){
+                            e.printStackTrace();
+                        }
                         break;
                     case EXIT:
                         System.out.println("Exit Menu option chosen");

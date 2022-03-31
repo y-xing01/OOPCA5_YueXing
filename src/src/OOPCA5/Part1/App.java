@@ -113,7 +113,7 @@ public class App {
         }
     }
 
-    public void playerTreeMap() {
+    public static void playerTreeMap() {
         Map<Integer, Player> playerTreeMap = new TreeMap<>();
         ArrayList<Player> playerList = playerArrayList();
 
@@ -131,7 +131,7 @@ public class App {
         }
     }
 
-    public void playerPriorityQueue() {
+    public static void playerPriorityQueue() {
         PriorityQueue<Player> ageQueue = new PriorityQueue<>(new ageComparator(SortType.Ascending));
 
         //Third priority
@@ -160,7 +160,7 @@ public class App {
     }
 
 
-    public void playerPriorityQueueTwoField() {
+    public static void playerPriorityQueueTwoField() {
 
         PriorityQueue<Player> nameQueue = new PriorityQueue<>(new namaAgeComparator());
         ArrayList<Player> playerList = playerArrayList();
