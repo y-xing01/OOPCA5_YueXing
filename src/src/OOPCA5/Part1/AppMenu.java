@@ -316,7 +316,7 @@ public class AppMenu {
             }
         } while (option != EXIT);
 
-        System.out.println("\nExiting Main Menu, goodbye.");
+        System.out.println("\nExiting Main Menu.");
     }
 }
 
