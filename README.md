@@ -31,3 +31,9 @@
 ## Raw view of APP Menu
 ![input-onlinejpgtools](https://user-images.githubusercontent.com/93914097/161160950-7e122e06-e5f5-43f2-82a5-c94306b5ac27.jpg)
 
+## Menu for OOP CA5 Stage 1
+![image](https://user-images.githubusercontent.com/93914097/161161177-c3fa65bd-2055-4f37-9acf-30e5893ff6ef.png)
+
+## Menu for OOP CA5 Stage 2
+![image](https://user-images.githubusercontent.com/93914097/161161295-963e534e-bbf8-488d-b5bf-ea859fa938bf.png)
+
