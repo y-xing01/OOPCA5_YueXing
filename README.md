@@ -28,4 +28,5 @@
 * Based on heap structure, priority queue also has two types max - priority queue and min - priority queue.
 * Complexity: O(logN)
 
-![Raw View of APP Menu](input-onlinejpgtools.html)
+![input-onlinejpgtools](https://user-images.githubusercontent.com/93914097/161160950-7e122e06-e5f5-43f2-82a5-c94306b5ac27.jpg)
+
