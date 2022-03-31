@@ -28,16 +28,18 @@
 * Based on heap structure, priority queue also has two types max - priority queue and min - priority queue.
 * Complexity: O(logN)
 
-## Raw view of APP Menu
+# Code View OOP CA5
+## Main APP Menu
 ![input-onlinejpgtools](https://user-images.githubusercontent.com/93914097/161160950-7e122e06-e5f5-43f2-82a5-c94306b5ac27.jpg)
 
-### OOP CA5 Stage 1
-## APP Menu 
+## OOP CA5 Stage 1
+### APP Menu 
 ![image](https://user-images.githubusercontent.com/93914097/161161177-c3fa65bd-2055-4f37-9acf-30e5893ff6ef.png)
-## Methods
+### Methods
 ![input-onlinejpgtools (3)](https://user-images.githubusercontent.com/93914097/161161582-e91a8d9e-cca8-4f91-830d-afaee660c93e.jpg)
 
-
-## Menu for OOP CA5 Stage 2
+## OOP CA5 Stage 2
+## APP Menu
 ![image](https://user-images.githubusercontent.com/93914097/161161295-963e534e-bbf8-488d-b5bf-ea859fa938bf.png)
+## Methods
 
