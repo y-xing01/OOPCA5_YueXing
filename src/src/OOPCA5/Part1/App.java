@@ -275,9 +275,13 @@ public class App {
 
     public void findPlayerByFilter(){
         PlayerDaoInterface PlayerDao = new MySqlPlayerDao();
+        Scanner keyboard = new Scanner(System.in);
         try {
-            System.out.println("\nDisplay ALL Players filtered by AGE COMPARATOR : ");
-            ArrayList<Player> playerList = PlayerDao.findPlayerByFilter(new ageComparator(SortType.Ascending));
+            System.out.println("\nDisplay ALL Players filtered by AGE COMPARATOR where Career Won above : ");
+            System.out.println("Please enter a number to see career won above it : ");
+            int player_career_won = keyboard.nextInt();
+
+            ArrayList<Player> playerList = PlayerDao.findPlayerByFilter(new ageComparator(SortType.Ascending), player_career_won);
 
             if (playerList.isEmpty()) {
                 System.out.println("There are no Players");

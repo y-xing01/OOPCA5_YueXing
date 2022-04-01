@@ -216,7 +216,7 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface{
     }
 
     @Override
-    public ArrayList<Player> findPlayerByFilter(Comparator<Player> ageComparator) throws DaoException
+    public ArrayList<Player> findPlayerByFilter(Comparator<Player> ageComparator, int player_career_won) throws DaoException
     {
         Connection connection = null;
         PreparedStatement ps = null;
@@ -227,8 +227,9 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface{
         {
             connection = this.getConnection();
 
-            String query = "SELECT * FROM PLAYER";
+            String query = "SELECT * FROM PLAYER WHERE PLAYER_CAREER_WIN > ?";
             ps = connection.prepareStatement(query);
+            ps.setInt(1,  player_career_won);
 
             resultSet = ps.executeQuery();
             while (resultSet.next())
