@@ -1,5 +1,9 @@
 package OOPCA5.Part1;
 
+import OOPCA5.DAOs.MySqlPlayerDao;
+import OOPCA5.DAOs.PlayerDaoInterface;
+import OOPCA5.Exceptions.DaoException;
+
 import java.util.*;
 
 public class App {
@@ -7,7 +11,7 @@ public class App {
      *********************************************ALL METHODS BELOW FOR FUNCTIONS BELOW*********************************************
      ******************************************************************************************************************************/
 
-    public static ArrayList<Player> playerArrayList() {
+    public ArrayList<Player> playerArrayList() {
         ArrayList<Player> playerList = new ArrayList<>();
 
         //Inserting Player in ArrayList
@@ -25,7 +29,7 @@ public class App {
         return playerList;
     }
 
-    public static void displayArrayList() {
+    public void displayArrayList() {
         ArrayList<Player> playerList = playerArrayList();
         System.out.println("____________________________________________________________________________________");
         System.out.println("| Player World Rank |         Player Name         |  Player Age  |  Player Height  |");
@@ -36,7 +40,7 @@ public class App {
         System.out.println("====================================================================================");
     }
 
-    public static void playerHashMap() {
+    public void playerHashMap() {
         Scanner keyboard = new Scanner(System.in);
         Map<String, ArrayList<Player>> playerHashMap = new HashMap<>();
 
@@ -113,7 +117,7 @@ public class App {
         }
     }
 
-    public static void playerTreeMap() {
+    public void playerTreeMap() {
         Map<Integer, Player> playerTreeMap = new TreeMap<>();
         ArrayList<Player> playerList = playerArrayList();
 
@@ -131,7 +135,7 @@ public class App {
         }
     }
 
-    public static void playerPriorityQueue() {
+    public void playerPriorityQueue() {
         PriorityQueue<Player> ageQueue = new PriorityQueue<>(new ageComparator(SortType.Ascending));
 
         //Third priority
@@ -159,7 +163,7 @@ public class App {
         }
     }
 
-    public static void playerPriorityQueueTwoField() {
+    public void playerPriorityQueueTwoField() {
 
         PriorityQueue<Player> nameQueue = new PriorityQueue<>(new namaAgeComparator());
         ArrayList<Player> playerList = playerArrayList();
@@ -170,6 +174,150 @@ public class App {
 
         while (!nameQueue.isEmpty()) {
             System.out.println(nameQueue.remove() + "\n");
+        }
+    }
+
+    public void findAllPlayer(){
+        PlayerDaoInterface PlayerDao = new MySqlPlayerDao();
+        try {
+            System.out.println("\nFind ALL Players : ");
+            ArrayList<Player> playerList = PlayerDao.findAllPlayers();
+
+            if (playerList.isEmpty())
+                System.out.println("There are no Players");
+            else {
+                System.out.println("________________________________________________________________________________________________________");
+                System.out.println("| Player World Rank |         Player Name         |  Player Age  |  Player Height  | Player Career Win |");
+                System.out.println("========================================================================================================");
+                for (Player p : playerList)
+                    System.out.printf("|         %-6d    |\t    %-12s\t\t  | %7d\t     | %10.2f\t   | \t%7d\t       |\n", p.getPlayerWRank(), p.getPlayerName(), p.getPlayerAge(), p.getPlayerHeight(), p.getCareerWin());
+                System.out.println("========================================================================================================");
+            }
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void findPlayerByWorldRank(){
+        PlayerDaoInterface PlayerDao = new MySqlPlayerDao();
+        Scanner keyboard = new Scanner(System.in);
+        try {
+            System.out.println("\nFind Players by WORLD RANKING");
+            System.out.println("Please enter WORLD RANKING : ");
+            int wRank = keyboard.nextInt();
+
+            ArrayList<Player> playerList = PlayerDao.findPlayerByWorldRanking(wRank);
+
+            if (playerList.isEmpty()) {
+                System.out.println("There are no Players that is ranked " + wRank);
+            } else {
+                System.out.println("\nPlayer Age has rank of " + wRank + " : ");
+                System.out.println("________________________________________________________________________________________________________");
+                System.out.println("| Player World Rank |         Player Name         |  Player Age  |  Player Height  | Player Career Win |");
+                System.out.println("========================================================================================================");
+                for (Player p : playerList)
+                    System.out.printf("|         %-6d    |\t    %-12s\t\t  | %7d\t     | %10.2f\t   | \t%7d\t       |\n", p.getPlayerWRank(), p.getPlayerName(), p.getPlayerAge(), p.getPlayerHeight(), p.getCareerWin());
+                System.out.println("========================================================================================================");
+            }
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deletePlayerById(){
+        PlayerDaoInterface PlayerDao = new MySqlPlayerDao();
+        Scanner keyboard = new Scanner(System.in);
+        try {
+            System.out.println("\nDELETE Player by ID");
+            System.out.println("Please enter player ID to delete : ");
+            int player_id = keyboard.nextInt();
+            if (PlayerDao.deletePlayerById(player_id) == true)
+                System.out.println("Player ID : " + player_id + " is deleted.");
+            else
+                System.out.println("Player with ID of " + player_id + " is not found.");
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addPlayer(){
+        PlayerDaoInterface PlayerDao = new MySqlPlayerDao();
+        Scanner keyboard = new Scanner(System.in);
+        try {
+            System.out.println("\nADD Player");
+            System.out.println("Please enter player WORLD RANKING : ");
+            int worldRank = keyboard.nextInt();
+
+            System.out.println("Please enter player NAME : ");
+            String playerName = keyboard.next();
+
+            System.out.println("Please enter player AGE : ");
+            int playerAge = keyboard.nextInt();
+
+            System.out.println("Please enter player Height : ");
+            float playerHeight = keyboard.nextFloat();
+
+            System.out.println("Please enter player Career Won : ");
+            int playerCareerWon = keyboard.nextInt();
+
+            Player player = PlayerDao.addPlayer(new Player(worldRank, playerName, playerAge, playerHeight, playerCareerWon));
+
+            if (player != null)
+                System.out.println(player + " is ADDED.");
+            else {
+                System.out.println("Player is NOT ADDED");
+            }
+
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void findPlayerByFilter(){
+        PlayerDaoInterface PlayerDao = new MySqlPlayerDao();
+        try {
+            System.out.println("\nDisplay ALL Players filtered by AGE COMPARATOR : ");
+            ArrayList<Player> playerList = PlayerDao.findPlayerByFilter(new ageComparator(SortType.Ascending));
+
+            if (playerList.isEmpty()) {
+                System.out.println("There are no Players");
+            } else {
+                System.out.println("________________________________________________________________________________________________________");
+                System.out.println("| Player World Rank |         Player Name         |  Player Age  |  Player Height  | Player Career Win |");
+                System.out.println("========================================================================================================");
+                for (Player p : playerList)
+                    System.out.printf("|         %-6d    |\t    %-12s\t\t  | %7d\t     | %10.2f\t   | \t%7d\t       |\n", p.getPlayerWRank(), p.getPlayerName(), p.getPlayerAge(), p.getPlayerHeight(), p.getCareerWin());
+                System.out.println("========================================================================================================");
+            }
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void findAllPlayersJson(){
+        PlayerDaoInterface PlayerDao = new MySqlPlayerDao();
+        try {
+            System.out.println("\nReturn ALL Players by JSON : ");
+            System.out.println(PlayerDao.findAllPlayersJson());
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void findPlayerByIdJson(){
+        PlayerDaoInterface PlayerDao = new MySqlPlayerDao();
+        Scanner keyboard = new Scanner(System.in);
+        try {
+            System.out.println("\nReturn Player by ID JSON");
+            System.out.println("Please enter a player ID : ");
+            int playerId = keyboard.nextInt();
+
+            if (PlayerDao.findPlayerByIdJson(playerId).length() > 0)
+                System.out.println(PlayerDao.findPlayerByIdJson(playerId));
+            else
+                System.out.println("Player with ID " + playerId + " is not found.");
+        } catch (DaoException e) {
+            e.printStackTrace();
         }
     }
 }
