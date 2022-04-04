@@ -5,6 +5,7 @@ import OOPCA5.Exceptions.DaoException;
 import OOPCA5.Part1.SortType;
 import OOPCA5.Part1.ageComparator;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -322,7 +323,7 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface{
                 throw new DaoException("Find All Player by JSON : " + e.getMessage());
             }
         }
-        Gson gsonParser = new Gson();
+        Gson gsonParser = new GsonBuilder().setPrettyPrinting().create();;
         return gsonParser.toJson(playerList);
     }
 
@@ -377,7 +378,7 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface{
                 throw new DaoException("Find player by ID JSON " + e.getMessage());
             }
         }
-        Gson gsonParser = new Gson();
+        Gson gsonParser = new GsonBuilder().setPrettyPrinting().create();
         return gsonParser.toJson(playerList);
     }
 }
