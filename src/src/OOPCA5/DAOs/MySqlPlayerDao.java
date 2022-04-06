@@ -346,12 +346,13 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface{
             resultSet = ps.executeQuery();
             while (resultSet.next())
             {
+                int playerId = resultSet.getInt("PLAYER_ID");
                 int playerWorldRank = resultSet.getInt("PLAYER_WORLD_RANK");
                 String playerName = resultSet.getString("PLAYER_NAME");
                 int playerAge = resultSet.getInt("PLAYER_AGE");
                 float playerHeight = resultSet.getFloat("PLAYER_HEIGHT");
                 int playerCareerWin = resultSet.getInt("PLAYER_CAREER_WIN");
-                Player p = new Player(playerWorldRank, playerName, playerAge, playerHeight, playerCareerWin);
+                Player p = new Player(playerId, playerWorldRank, playerName, playerAge, playerHeight, playerCareerWin);
                 playerList.add(p);
             }
         } catch (SQLException e)
