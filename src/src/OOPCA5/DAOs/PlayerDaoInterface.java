@@ -11,6 +11,8 @@ public interface PlayerDaoInterface{
 
     public ArrayList <Player> findPlayerByWorldRanking(int player_world_rank) throws DaoException;
 
+    public ArrayList <Player> findPlayerById(int player_id) throws DaoException;
+
     public boolean deletePlayerById(int player_id) throws DaoException;
 
     public Player addPlayer(Player player) throws  DaoException;

@@ -224,6 +224,32 @@ public class App {
         }
     }
 
+    public void findPlayerById(){
+        PlayerDaoInterface PlayerDao = new MySqlPlayerDao();
+        Scanner keyboard = new Scanner(System.in);
+        try {
+            System.out.println("\nFind Players by WORLD RANKING");
+            System.out.println("Please enter WORLD RANKING : ");
+            int id = keyboard.nextInt();
+
+            ArrayList<Player> playerList = PlayerDao.findPlayerByWorldRanking(id);
+
+            if (playerList.isEmpty()) {
+                System.out.println("There are no Players with id of " + id);
+            } else {
+                System.out.println("\nPlayer Age has rank of " + id + " : ");
+                System.out.println("________________________________________________________________________________________________________");
+                System.out.println("| Player World Rank |         Player Name         |  Player Age  |  Player Height  | Player Career Win |");
+                System.out.println("========================================================================================================");
+                for (Player p : playerList)
+                    System.out.printf("|         %-6d    |\t    %-12s\t\t  | %7d\t     | %10.2f\t   | \t%7d\t       |\n", p.getPlayerWRank(), p.getPlayerName(), p.getPlayerAge(), p.getPlayerHeight(), p.getCareerWin());
+                System.out.println("========================================================================================================");
+            }
+        } catch (DaoException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void deletePlayerById(){
         PlayerDaoInterface PlayerDao = new MySqlPlayerDao();
         Scanner keyboard = new Scanner(System.in);

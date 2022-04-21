@@ -89,12 +89,68 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface{
             resultSet = ps.executeQuery();
             while (resultSet.next())
             {
+                int playerId = resultSet.getInt("PLAYER_ID");
                 int playerWorldRank = resultSet.getInt("PLAYER_WORLD_RANK");
                 String playerName = resultSet.getString("PLAYER_NAME");
                 int playerAge = resultSet.getInt("PLAYER_AGE");
                 float playerHeight = resultSet.getFloat("PLAYER_HEIGHT");
                 int playerCareerWin = resultSet.getInt("PLAYER_CAREER_WIN");
-                Player p = new Player(playerWorldRank, playerName, playerAge, playerHeight, playerCareerWin);
+                Player p = new Player(playerId, playerWorldRank, playerName, playerAge, playerHeight, playerCareerWin);
+                playerList.add(p);
+            }
+        } catch (SQLException e)
+        {
+            throw new DaoException("Find Player by WORLD RANKING : " + e.getMessage());
+        } finally
+        {
+            try
+            {
+                if (resultSet != null)
+                {
+                    resultSet.close();
+                }
+                if (ps != null)
+                {
+                    ps.close();
+                }
+                if (connection != null)
+                {
+                    freeConnection(connection);
+                }
+            } catch (SQLException e)
+            {
+                throw new DaoException("Find player by WORLD RANKING :  " + e.getMessage());
+            }
+        }
+        return playerList;
+    }
+
+    @Override
+    public ArrayList<Player> findPlayerById(int player_id) throws DaoException
+    {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
+        ArrayList<Player> playerList = new ArrayList<>();
+
+        try
+        {
+            connection = this.getConnection();
+
+            String query = "SELECT * FROM PLAYER WHERE PLAYER_ID = ?";
+            ps = connection.prepareStatement(query);
+            ps.setInt(1,  player_id);
+
+            resultSet = ps.executeQuery();
+            while (resultSet.next())
+            {
+                int playerId = resultSet.getInt("PLAYER_ID");
+                int playerWorldRank = resultSet.getInt("PLAYER_WORLD_RANK");
+                String playerName = resultSet.getString("PLAYER_NAME");
+                int playerAge = resultSet.getInt("PLAYER_AGE");
+                float playerHeight = resultSet.getFloat("PLAYER_HEIGHT");
+                int playerCareerWin = resultSet.getInt("PLAYER_CAREER_WIN");
+                Player p = new Player(playerId, playerWorldRank, playerName, playerAge, playerHeight, playerCareerWin);
                 playerList.add(p);
             }
         } catch (SQLException e)
