@@ -42,7 +42,7 @@ public class Client {
                     + "2. Display ALL Players\n"
                     + "3. ADD Player\n"
                     + "4. Delete Player by ID\n"
-                    + "5. Update Player\n"
+                    + "5. Edit Player\n"
                     + "6. Exit\n"
                     + "Enter Option [1,6]";
 
@@ -66,7 +66,7 @@ public class Client {
                 option = Integer.parseInt(usersInput);
                 switch (option) {
                     case DISPLAYBYID:
-                        System.out.println("Enter player ID : ");
+                        System.out.println("\nEnter player ID : ");
                         String id = in.next();
                         in.nextLine();
                         command = "displaybyid " + id;
@@ -97,7 +97,7 @@ public class Client {
 
                         break;
                     case ADDPLAYER:
-                        System.out.println("Enter player details :");
+                        System.out.println("\nEnter player details :");
 
                         System.out.println("Please enter player WORLD RANKING : ");
                         String worldRank = in.next();
@@ -117,7 +117,7 @@ public class Client {
                         System.out.println(addPlayer);
                         break;
                     case DELETEPLAYER:
-                        System.out.println("Enter player ID to delete :");
+                        System.out.println("\nEnter player ID to delete :");
                         String deleteID = in.next();
                         in.nextLine();
                         command = "deletebyid " + deleteID;
@@ -127,7 +127,7 @@ public class Client {
                         System.out.println(deleteById);
                         break;
                     case EDITPLAYER:
-                        System.out.println("Enter player ID to edit :");
+                        System.out.println("\nEnter player ID to edit :");
                         String editId = in.next();
 
                         System.out.println("\nEnter player details :");
