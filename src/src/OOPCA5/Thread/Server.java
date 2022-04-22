@@ -181,7 +181,46 @@ public class Server {
                         } catch (DaoException e) {
                             e.printStackTrace();
                         }
-                    } else {
+                    } else if (msg.startsWith("editplayer")) {
+                        System.out.println("Test");
+                        try {
+                            int playerId = 0;
+                            int playerWRank = 0;
+                            String playerName = "";
+                            int playerAge = 0;
+                            float playerHeight = 0;
+                            int playerCareerWon = 0;
+                            String token[] = msg.split(" ");
+                            //Input error checking (If Integer is number // If String is not number // If Float has decimals)
+                            if (token[2].matches("-?\\d+") && token[4].matches("-?\\d+") && token[5].matches("^([+-]?\\d*\\.?\\d*)$") && token[6].matches("-?\\d+")) {
+                                if(!token[3].matches("-?\\d+")){
+                                    if (Integer.parseInt(token[1]) > 0 && Integer.parseInt(token[2]) > 0 && Integer.parseInt(token[4]) > 0 && Float.parseFloat(token[5]) > 0) {
+                                        playerId = Integer.parseInt(token[1]);
+                                        playerWRank = Integer.parseInt(token[2]);
+                                        playerName = token[3];
+                                        playerAge = Integer.parseInt(token[4]);
+                                        playerHeight = Float.parseFloat(token[5]);
+                                        playerCareerWon = Integer.parseInt(token[6]);
+                                        boolean p = s.editPlayer(playerId, new Player(playerWRank, playerName, playerAge, playerHeight, playerCareerWon));
+                                        if (p)
+                                            response = "Player ID : " + playerId + " is edited.";
+                                        else
+                                            response = "Player with ID of " + playerId + " is not found.";
+                                    } else {
+                                        response = "Input must be bigger than 0";
+                                    }
+                                }else{
+                                    response = "Input must be a string";
+                                }
+                            } else {
+                                response = "Input is not an integer";
+                            }
+                            socketWriter.println(response);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    }else {
                         socketWriter.println("I'm sorry I don't understand :(");
                     }
                 }

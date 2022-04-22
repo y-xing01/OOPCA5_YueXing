@@ -50,7 +50,7 @@ public class Client {
             final int DISPLAYALL = 2;
             final int ADDPLAYER = 3;
             final int DELETEPLAYER = 4;
-            final int UPDATEPLAYER = 5;
+            final int EDITPLAYER = 5;
             final int EXIT = 6;
             int option = 0;
             do {
@@ -66,7 +66,7 @@ public class Client {
                 option = Integer.parseInt(usersInput);
                 switch (option) {
                     case DISPLAYBYID:
-                        System.out.println("Enter player id");
+                        System.out.println("Enter player ID : ");
                         String id = in.next();
                         in.nextLine();
                         command = "displaybyid " + id;
@@ -97,11 +97,10 @@ public class Client {
 
                         break;
                     case ADDPLAYER:
-                        System.out.println("Enter player details");
+                        System.out.println("Enter player details :");
 
                         System.out.println("Please enter player WORLD RANKING : ");
                         String worldRank = in.next();
-
                         System.out.println("Please enter player NAME : ");
                         String playerName = in.next();
                         System.out.println("Please enter player AGE : ");
@@ -118,7 +117,7 @@ public class Client {
                         System.out.println(addPlayer);
                         break;
                     case DELETEPLAYER:
-                        System.out.println("Enter player id");
+                        System.out.println("Enter player ID to delete :");
                         String deleteID = in.next();
                         in.nextLine();
                         command = "deletebyid " + deleteID;
@@ -127,7 +126,28 @@ public class Client {
                         String deleteById = socketReader.nextLine();
                         System.out.println(deleteById);
                         break;
-                    case UPDATEPLAYER:
+                    case EDITPLAYER:
+                        System.out.println("Enter player ID to edit :");
+                        String editId = in.next();
+
+                        System.out.println("\nEnter player details :");
+                        System.out.println("Please enter player WORLD RANKING : ");
+                        worldRank = in.next();
+                        System.out.println("Please enter player NAME : ");
+                        playerName = in.next();
+                        System.out.println("Please enter player AGE : ");
+                        playerAge = in.next();
+                        System.out.println("Please enter player Height : ");
+                        playerHeight = in.next();
+                        System.out.println("Please enter player Career Won : ");
+                        playerCareerWon = in.next();
+                        in.nextLine();
+                        command = "editplayer" + " " + editId + " " + worldRank + " " + playerName + " " + playerAge + " " + playerHeight + " " + playerCareerWon;
+                        socketWriter.println(command.toLowerCase());
+                        String editPlayer = socketReader.nextLine();
+
+                        System.out.println(editPlayer);
+
                         break;
                     case EXIT:
                         System.out.println("Exit Menu option chosen");

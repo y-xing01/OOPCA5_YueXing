@@ -23,5 +23,5 @@ public interface PlayerDaoInterface{
 
     public String findPlayerByIdJson(int player_id) throws DaoException;
 
-    public Player updatePlayer(Player player) throws DaoException;
+    public boolean editPlayer(int player_id, Player player) throws DaoException;
 }

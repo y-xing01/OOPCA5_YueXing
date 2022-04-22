@@ -155,7 +155,7 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface{
             }
         } catch (SQLException e)
         {
-            throw new DaoException("Find Player by WORLD RANKING : " + e.getMessage());
+            throw new DaoException("Find Player by ID : " + e.getMessage());
         } finally
         {
             try
@@ -174,7 +174,7 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface{
                 }
             } catch (SQLException e)
             {
-                throw new DaoException("Find player by WORLD RANKING :  " + e.getMessage());
+                throw new DaoException("Find player by ID :  " + e.getMessage());
             }
         }
         return playerList;
@@ -440,8 +440,9 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface{
     }
 
     @Override
-    public Player updatePlayer(Player player) throws DaoException
+    public boolean editPlayer(int player_id, Player player) throws DaoException
     {
+        boolean updated = false;
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet resultSet = null;
@@ -449,19 +450,23 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface{
         try
         {
             connection = this.getConnection();
-
-            String query = "UPDATE PLAYER VALUES(NULL, ?, ?, ?, ?, ?)";
+            String query = "UPDATE PLAYER SET player_world_rank = ?, player_name = ?, player_age = ?, player_height = ?, player_career_win = ? WHERE player_id = ?";
             ps = connection.prepareStatement(query);
             ps.setInt(1, player.getPlayerWRank());
             ps.setString(2, player.getPlayerName());
             ps.setInt(3, player.getPlayerAge());
             ps.setFloat(4, player.getPlayerHeight());
             ps.setInt(5, player.getCareerWin());
+            ps.setInt(6,  player_id);
             ps.executeUpdate();
+
+            if (ps.executeUpdate() > 0) {
+                updated = true;
+            }
 
         } catch (SQLException e)
         {
-            throw new DaoException("Update Player : " + e.getMessage());
+            throw new DaoException("Edit Player : " + e.getMessage());
         } finally
         {
             try
@@ -480,9 +485,9 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface{
                 }
             } catch (SQLException e)
             {
-                throw new DaoException("Update Player : " + e.getMessage());
+                throw new DaoException("Edit Player : " + e.getMessage());
             }
         }
-        return player;
+        return updated;
     }
 }
