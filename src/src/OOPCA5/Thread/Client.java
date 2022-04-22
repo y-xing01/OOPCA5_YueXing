@@ -42,75 +42,99 @@ public class Client {
                     + "2. Display ALL Players\n"
                     + "3. ADD Player\n"
                     + "4. Delete Player by ID\n"
-                    + "5. Exit\n"
-                    + "Enter Option [1,5]";
+                    + "5. Update Player\n"
+                    + "6. Exit\n"
+                    + "Enter Option [1,6]";
 
             final int DISPLAYBYID = 1;
             final int DISPLAYALL = 2;
             final int ADDPLAYER = 3;
             final int DELETEPLAYER = 4;
-            final int EXIT = 5;
-
-            Scanner keyboard = new Scanner(System.in);
+            final int UPDATEPLAYER = 5;
+            final int EXIT = 6;
             int option = 0;
             do {
                 System.out.println("\n" + MENU_ITEMS);
-                  // wait for, and retrieve the reply
-                try {
-                    String usersInput = keyboard.nextLine();
-                    Gson gsonParser = new Gson();
-                    Type userListType = new TypeToken<ArrayList<Player>>() {
-                    }.getType();
-                    ArrayList<Player> userArray;
-                    String command;
+                // wait for, and retrieve the reply
+                String usersInput = in.nextLine();
+                Gson gsonParser = new Gson();
+                Type userListType = new TypeToken<ArrayList<Player>>() {
+                }.getType();
+                ArrayList<Player> userArray;
+                String command;
 
-                    option = Integer.parseInt(usersInput);
-                    switch (option) {
-                        case DISPLAYBYID:
-                            System.out.println("Please enter a command:  (\"diplaybyid INT\" to get Player by ID)");
-                            command = in.nextLine();
-                            socketWriter.println(command.toLowerCase());
-                            String displayById = socketReader.nextLine();
-                            System.out.println("Client message: Response from server displayById: ");
-
+                option = Integer.parseInt(usersInput);
+                switch (option) {
+                    case DISPLAYBYID:
+                        System.out.println("Enter player id");
+                        String id = in.next();
+                        in.nextLine();
+                        command = "displaybyid " + id;
+                        socketWriter.println(command.toLowerCase());
+                        String displayById = socketReader.nextLine();
+                        System.out.println("Client message: Response from server displayById: ");
+                        if (!displayById.equals("Input is not an integer")) {
                             userArray = gsonParser.fromJson(displayById, userListType);
                             for (Player p : userArray) {
                                 System.out.println(p);
                             }
+                        } else {
+                            System.out.println(displayById);
+                        }
 
-                            break;
+                        break;
+                    case DISPLAYALL:
+//                            System.out.println("Please enter a command:  (\"displayall\" to get All Players)");
+                        command = "displayall";
+                        socketWriter.println(command);
+                        String displayAll = socketReader.nextLine();
+                        System.out.println("Client message: Response from server displayAll: ");
 
-                        case DISPLAYALL:
-                            System.out.println("Please enter a command:  (\"displayall\" to get All Players)");
-                            command = in.nextLine();
-                            socketWriter.println(command.toLowerCase());
-                            String displayAll = socketReader.nextLine();
-                            System.out.println("Client message: Response from server displayAll: ");
+                        userArray = gsonParser.fromJson(displayAll, userListType);
+                        for (Player p : userArray) {
+                            System.out.println(p);
+                        }
 
-                            userArray = gsonParser.fromJson(displayAll, userListType);
-                            for (Player p : userArray) {
-                                System.out.println(p);
-                            }
+                        break;
+                    case ADDPLAYER:
+                        System.out.println("Enter player details");
 
-                            break;
-                        case ADDPLAYER:
+                        System.out.println("Please enter player WORLD RANKING : ");
+                        String worldRank = in.next();
 
-                            break;
-                        case DELETEPLAYER:
+                        System.out.println("Please enter player NAME : ");
+                        String playerName = in.next();
+                        System.out.println("Please enter player AGE : ");
+                        String playerAge = in.next();
+                        System.out.println("Please enter player Height : ");
+                        String playerHeight = in.next();
+                        System.out.println("Please enter player Career Won : ");
+                        String playerCareerWon = in.next();
+                        in.nextLine();
+                        command = "addplayer" + " " + worldRank + " " + playerName + " " + playerAge + " " + playerHeight + " " + playerCareerWon;
+                        socketWriter.println(command.toLowerCase());
+                        String addPlayer = socketReader.nextLine();
 
-                            break;
-                        case EXIT:
-                            System.out.println("Exit Menu option chosen");
-                            break;
-                        default:
-                            System.out.print("Invalid option - please enter number in range");
-                            break;
-                    }
-
-
-                } catch (InputMismatchException |
-                        NumberFormatException e) {
-                    System.out.print("Invalid option - please enter number in range");
+                        System.out.println(addPlayer);
+                        break;
+                    case DELETEPLAYER:
+                        System.out.println("Enter player id");
+                        String deleteID = in.next();
+                        in.nextLine();
+                        command = "deletebyid " + deleteID;
+                        socketWriter.println(command.toLowerCase());
+                        System.out.println("Client message: Response from server deleteById: ");
+                        String deleteById = socketReader.nextLine();
+                        System.out.println(deleteById);
+                        break;
+                    case UPDATEPLAYER:
+                        break;
+                    case EXIT:
+                        System.out.println("Exit Menu option chosen");
+                        break;
+                    default:
+                        System.out.print("Invalid option - please enter number in range");
+                        break;
                 }
             } while (option != EXIT);
 
@@ -125,7 +149,7 @@ public class Client {
 //
 //                } else if (command.startsWith("addplayer")) {
 //                    String addPlayer = socketReader.nextLine();
-//                    Scanner keyboard = new Scanner(System.in);
+//                    Scanner in = new Scanner(System.in);
 //                    Gson gsonParser = new Gson();
 //                    Type userListType = new TypeToken<ArrayList<Player>>() {
 //                    }.getType();
@@ -133,19 +157,19 @@ public class Client {
 //                    System.out.println("Client message: Response from server addPlayer: ");
 //
 //                    System.out.println("Please enter player WORLD RANKING : ");
-//                    int worldRank = keyboard.nextInt();
+//                    int worldRank = in.nextInt();
 //
 //                    System.out.println("Please enter player NAME : ");
-//                    String playerName = keyboard.next();
+//                    String playerName = in.next();
 //
 //                    System.out.println("Please enter player AGE : ");
-//                    int playerAge = keyboard.nextInt();
+//                    int playerAge = in.nextInt();
 //
 //                    System.out.println("Please enter player Height : ");
-//                    float playerHeight = keyboard.nextFloat();
+//                    float playerHeight = in.nextFloat();
 //
 //                    System.out.println("Please enter player Career Won : ");
-//                    int playerCareerWon = keyboard.nextInt();
+//                    int playerCareerWon = in.nextInt();
 //
 //                    ArrayList<Player> userArray = gsonParser.fromJson(addPlayer, userListType);
 //                    for (Player p : userArray) {
@@ -160,7 +184,6 @@ public class Client {
 //                System.out.println("Enter next command: ");
 //                command = in.nextLine();
 //                socketWriter.println(command);
-
 
 
         } catch (IOException e) {

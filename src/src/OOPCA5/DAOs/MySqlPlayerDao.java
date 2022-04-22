@@ -438,4 +438,51 @@ public class MySqlPlayerDao extends MySqlDao implements PlayerDaoInterface{
         Gson gsonParser = new GsonBuilder().setPrettyPrinting().create();
         return gsonParser.toJson(playerList);
     }
+
+    @Override
+    public Player updatePlayer(Player player) throws DaoException
+    {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
+
+        try
+        {
+            connection = this.getConnection();
+
+            String query = "UPDATE PLAYER VALUES(NULL, ?, ?, ?, ?, ?)";
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, player.getPlayerWRank());
+            ps.setString(2, player.getPlayerName());
+            ps.setInt(3, player.getPlayerAge());
+            ps.setFloat(4, player.getPlayerHeight());
+            ps.setInt(5, player.getCareerWin());
+            ps.executeUpdate();
+
+        } catch (SQLException e)
+        {
+            throw new DaoException("Update Player : " + e.getMessage());
+        } finally
+        {
+            try
+            {
+                if (resultSet != null)
+                {
+                    resultSet.close();
+                }
+                if (ps != null)
+                {
+                    ps.close();
+                }
+                if (connection != null)
+                {
+                    freeConnection(connection);
+                }
+            } catch (SQLException e)
+            {
+                throw new DaoException("Update Player : " + e.getMessage());
+            }
+        }
+        return player;
+    }
 }

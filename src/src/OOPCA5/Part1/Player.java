@@ -85,7 +85,8 @@ public class Player{
 
     @Override
     public String toString() {
-        return "Player World Rank : " + playerWRank +
+        return "Player ID : " + playerId +
+                ", Player World Rank : " + playerWRank +
                 ", Player Name : " + playerName  +
                 ", Player Age : " + playerAge +
                 ", Player Height : " + playerHeight;

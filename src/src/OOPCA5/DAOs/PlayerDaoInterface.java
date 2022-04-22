@@ -22,4 +22,6 @@ public interface PlayerDaoInterface{
     public String findAllPlayersJson() throws DaoException;
 
     public String findPlayerByIdJson(int player_id) throws DaoException;
+
+    public Player updatePlayer(Player player) throws DaoException;
 }

@@ -5,6 +5,7 @@ import OOPCA5.Exceptions.DaoException;
 import OOPCA5.Part1.Player;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.mysql.cj.util.StringUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -83,6 +84,8 @@ public class Server {
         @Override
         public void run() {
             String msg;
+            String response = null;
+            Gson gson = new Gson();
             try {
                 while ((msg = socketReader.readLine()) != null) {
                     System.out.println("Server: (ClientHandler): Read command from client " + clientNumber + ": " + msg);
@@ -90,19 +93,28 @@ public class Server {
                     msg.toLowerCase();
                     if (msg.startsWith("displaybyid")) {
                         try {
-                            Gson gson = new Gson();
-                            String token[] = msg.split(" ");
-                            int num = Integer.parseInt(token[1]);
-                            ArrayList<Player> playerList = s.findPlayerById(num);
+                            int num = 0;
 
-                            String gsonParsed = gson.toJson(playerList);
-                            socketWriter.println(gsonParsed);
+                            String token[] = msg.split(" ");
+                            // any positive or negetive integer or not!
+//                            check input is int
+                            if (token[1].matches("-?\\d+")) {
+                                if (Integer.parseInt(token[1]) > 0) {
+                                    num = Integer.parseInt(token[1]);
+                                    ArrayList<Player> playerList = s.findPlayerById(num);
+                                    response = gson.toJson(playerList);
+                                } else {
+                                    response = "ID must bigger than 0";
+                                }
+                            } else {
+                                response = "Input is not an integer";
+                            }
+                            socketWriter.println(response);
                         } catch (DaoException e) {
                             e.printStackTrace();
                         }
                     } else if (msg.startsWith("displayall")) {
                         try {
-                            Gson gson = new Gson();
                             ArrayList<Player> playerList = s.findAllPlayers();
                             System.out.println("Server run" + playerList);
 
@@ -112,15 +124,63 @@ public class Server {
                             e.printStackTrace();
                         }
                     } else if (msg.startsWith("addplayer")) {
-//                        try {
-//
-//
-//
-//
-//                            socketWriter.println(player);
-//                        } catch (DaoException e) {
-//                            e.printStackTrace();
-//                        }
+                        try {
+                            int playerWRank = 0;
+                            String playerName = "";
+                            int playerAge = 0;
+                            float playerHeight = 0;
+                            int playerCareerWon = 0;
+                            String token[] = msg.split(" ");
+
+                            //Input error checking (If Integer is number // If String is not number // If Float has decimals)
+                            if (token[1].matches("-?\\d+") && token[3].matches("-?\\d+") && token[4].matches("^([+-]?\\d*\\.?\\d*)$") && token[5].matches("-?\\d+")) {
+                                if(!token[2].matches("-?\\d+")){
+                                    if (Integer.parseInt(token[1]) > 0 && Integer.parseInt(token[3]) > 0 && Float.parseFloat(token[4]) > 0) {
+                                        playerWRank = Integer.parseInt(token[1]);
+                                        playerName = token[2];
+                                        playerAge = Integer.parseInt(token[3]);
+                                        playerHeight = Float.parseFloat(token[4]);
+                                        playerCareerWon = Integer.parseInt(token[5]);
+                                        Player p = s.addPlayer(new Player(playerWRank, playerName, playerAge, playerHeight, playerCareerWon));
+                                        response = "Player is ADDED";
+                                    } else {
+                                        response = "Input must be bigger than 0";
+                                    }
+                                }else{
+                                    response = "Input must be a string";
+                                }
+                            } else {
+                                response = "Input is not an integer";
+                            }
+                            socketWriter.println(response);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    } else if (msg.startsWith("deletebyid")) {
+                        try {
+                            int num = 0;
+
+                            String token[] = msg.split(" ");
+                            // any positive or negetive integer or not!
+                            // check input is int
+                            if (token[1].matches("-?\\d+")) {
+                                if (Integer.parseInt(token[1]) > 0) {
+                                    num = Integer.parseInt(token[1]);
+                                    if (s.deletePlayerById(num) == true)
+                                        response = "Player ID : " + num + " is deleted.";
+                                    else
+                                        response = "Player with ID of " + num + " is not found.";
+                                } else {
+                                    response = "ID must bigger than 0";
+                                }
+                            } else {
+                                response = "Input is not an integer";
+                            }
+                            socketWriter.println(response);
+                        } catch (DaoException e) {
+                            e.printStackTrace();
+                        }
                     } else {
                         socketWriter.println("I'm sorry I don't understand :(");
                     }
