@@ -58,9 +58,9 @@ public class Client {
                 // wait for, and retrieve the reply
                 String usersInput = in.nextLine();
                 Gson gsonParser = new Gson();
-                Type userListType = new TypeToken<ArrayList<Player>>() {
+                Type playerListType = new TypeToken<ArrayList<Player>>() {
                 }.getType();
-                ArrayList<Player> userArray;
+                ArrayList<Player> playerList;
                 String command;
 
                 option = Integer.parseInt(usersInput);
@@ -73,11 +73,14 @@ public class Client {
                         socketWriter.println(command.toLowerCase());
                         String displayById = socketReader.nextLine();
                         System.out.println("Client message: Response from server displayById: ");
+                        playerList = gsonParser.fromJson(displayById, playerListType);
                         if (!displayById.equals("Input is not an integer")) {
-                            userArray = gsonParser.fromJson(displayById, userListType);
-                            for (Player p : userArray) {
-                                System.out.println(p);
-                            }
+                            System.out.println("________________________________________________________________________________________________________");
+                            System.out.println("| Player World Rank |         Player Name         |  Player Age  |  Player Height  | Player Career Win |");
+                            System.out.println("========================================================================================================");
+                            for (Player p : playerList)
+                                System.out.printf("|         %-6d    |\t    %-12s\t\t  | %7d\t     | %10.2f\t   | \t%7d\t       |\n", p.getPlayerWRank(), p.getPlayerName(), p.getPlayerAge(), p.getPlayerHeight(), p.getCareerWin());
+                            System.out.println("========================================================================================================");
                         } else {
                             System.out.println(displayById);
                         }
@@ -90,10 +93,13 @@ public class Client {
                         String displayAll = socketReader.nextLine();
                         System.out.println("Client message: Response from server displayAll: ");
 
-                        userArray = gsonParser.fromJson(displayAll, userListType);
-                        for (Player p : userArray) {
-                            System.out.println(p);
-                        }
+                        playerList = gsonParser.fromJson(displayAll, playerListType);
+                        System.out.println("________________________________________________________________________________________________________");
+                        System.out.println("| Player World Rank |         Player Name         |  Player Age  |  Player Height  | Player Career Win |");
+                        System.out.println("========================================================================================================");
+                        for (Player p : playerList)
+                            System.out.printf("|         %-6d    |\t    %-12s\t\t  | %7d\t     | %10.2f\t   | \t%7d\t       |\n", p.getPlayerWRank(), p.getPlayerName(), p.getPlayerAge(), p.getPlayerHeight(), p.getCareerWin());
+                        System.out.println("========================================================================================================");
 
                         break;
                     case ADDPLAYER:

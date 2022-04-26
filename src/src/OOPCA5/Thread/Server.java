@@ -4,19 +4,15 @@ import OOPCA5.DAOs.MySqlPlayerDao;
 import OOPCA5.Exceptions.DaoException;
 import OOPCA5.Part1.Player;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.mysql.cj.util.StringUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.lang.reflect.Type;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Server {
     MySqlPlayerDao s = new MySqlPlayerDao();
@@ -147,7 +143,7 @@ public class Server {
                                         response = "Input must be bigger than 0";
                                     }
                                 }else{
-                                    response = "Input must be a string";
+                                    response = "Player Name must be a string";
                                 }
                             } else {
                                 response = "Input is not an integer";
@@ -156,7 +152,6 @@ public class Server {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-
                     } else if (msg.startsWith("deletebyid")) {
                         try {
                             int num = 0;
@@ -210,7 +205,7 @@ public class Server {
                                         response = "Input must be bigger than 0";
                                     }
                                 }else{
-                                    response = "Input must be a string";
+                                    response = "Player Name must be a string";
                                 }
                             } else {
                                 response = "Input is not an integer";
